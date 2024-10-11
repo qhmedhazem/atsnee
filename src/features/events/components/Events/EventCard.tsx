@@ -4,7 +4,7 @@ import { Event } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { getRelativeTime } from "@/lib/utils";
 import { LinkButton } from "@/components/ui/Button";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import Markdown from "react-markdown";
 import { Badge } from "@/components/ui/Badge";
 

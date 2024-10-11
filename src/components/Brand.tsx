@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React, { FC } from "react";
 
@@ -8,6 +9,8 @@ interface Props {
 }
 
 const Brand: FC<Props> = ({ withText = true, withDescription = true }) => {
+  const t = useTranslations("brand");
+
   return (
     <Link className="flex gap-4 justify-center items-center uppercase" href="/">
       <Image
@@ -21,12 +24,10 @@ const Brand: FC<Props> = ({ withText = true, withDescription = true }) => {
         <div>
           <p className="text-2xl font-bold">ATSNEE</p>
           {withDescription ? (
-            <p className="text-xs font-light">
-              Applied Technology School for Nuclear Energy in El-Dabaa
-            </p>
+            <p className="text-xs font-light">{t("school_name")}</p>
           ) : (
             <p className="hidden text-xs font-light md:inline">
-              Applied Technology School for Nuclear Energy in El-Dabaa
+              {t("school_name")}
             </p>
           )}
         </div>

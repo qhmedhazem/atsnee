@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 
 import { Message } from "@prisma/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";

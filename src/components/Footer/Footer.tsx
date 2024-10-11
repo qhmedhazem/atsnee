@@ -5,7 +5,7 @@ import Brand from "../Brand";
 import FooterLinksList from "./FooterLinksList";
 import { Separator } from "../ui/Separator";
 import { getA7medInstagram, getMohamedInstagram } from "@/lib/utils";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import FooterSocialMediaLinks from "./FooterSocialMediaLinks";
 import {
   Building2Icon,

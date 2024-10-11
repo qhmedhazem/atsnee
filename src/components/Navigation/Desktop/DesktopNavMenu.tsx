@@ -68,7 +68,7 @@ export default function DesktopNavMenu(props: Props) {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="/announcements" legacyBehavior passHref>
+          <Link href="/announcements" passHref legacyBehavior>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Announcements
             </NavigationMenuLink>
@@ -76,7 +76,7 @@ export default function DesktopNavMenu(props: Props) {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="/admission" legacyBehavior passHref>
+          <Link href="/admission" passHref legacyBehavior>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Admission
             </NavigationMenuLink>
@@ -84,7 +84,7 @@ export default function DesktopNavMenu(props: Props) {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="/activities" legacyBehavior passHref>
+          <Link href="/activities" passHref legacyBehavior>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Activities
             </NavigationMenuLink>
@@ -92,7 +92,7 @@ export default function DesktopNavMenu(props: Props) {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="/contact" legacyBehavior passHref>
+          <Link href="/contact" passHref legacyBehavior>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Contact us
             </NavigationMenuLink>

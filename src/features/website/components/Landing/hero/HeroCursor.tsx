@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import useScroll from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 

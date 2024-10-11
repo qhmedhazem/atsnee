@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/Card";
 import Markdown from "react-markdown";
 import { Badge } from "@/components/ui/Badge";
 import { CalendarIcon, MapPinIcon, StickyNote } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 

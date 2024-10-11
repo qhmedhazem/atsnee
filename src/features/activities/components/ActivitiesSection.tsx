@@ -6,7 +6,7 @@ import ActivityCard from "./ActivityCard";
 
 import { cn } from "@/lib/utils";
 import Tabs, { Tab } from "@/components/Tabs";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 
 type ActivityWithTeams = Activity & {
   teams: { members: string[] }[];
