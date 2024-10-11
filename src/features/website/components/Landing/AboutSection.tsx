@@ -5,7 +5,7 @@ import StatItem from "../../../../components/StatItem";
 const AboutSectionImage = () => {
   return (
     <Image
-      src="/landing1.jpg"
+      src="/landing5.jpg"
       alt="School"
       width={1024}
       height={1024}

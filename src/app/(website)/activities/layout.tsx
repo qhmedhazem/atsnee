@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Activities | Applied Technology School for Nuclear Energy",
 };
 
-export default async function Activities({
+export default async function ActivitiesLayout({
   children,
 }: {
   children: ReactNode;

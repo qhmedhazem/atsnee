@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Competitions | Applied Technology School for Nuclear Energy",
 };
 
-export default async function Activities() {
+export default async function CompetitionsLayout() {
   const activities = await fetchCompetitionsParticipations();
 
   return <ActivitiesSection activities={activities} />;

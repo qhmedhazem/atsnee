@@ -15,6 +15,11 @@ const nextConfig = {
         destination: "/activities/competitions",
         permanent: true,
       },
+      {
+        source: "/campus",
+        destination: "/campus/life",
+        permanent: true,
+      },
     ];
   },
   env: {

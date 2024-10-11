@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     "El-Dabaa Nuclear School is a premier institution dedicated to educating and training the next generation of nuclear engineers and scientists.",
   openGraph: {
     type: "website",
+    url: "https://atsnee.vercel.app/",
     siteName: "Applied Technology School for Nuclear Energy",
     description:
       "El-Dabaa Nuclear School is a premier institution dedicated to educating and training the next generation of nuclear engineers and scientists.",
