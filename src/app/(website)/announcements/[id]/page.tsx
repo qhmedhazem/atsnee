@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!announcement) return {};
 
   return {
-    title: announcement.title,
+    title: announcement.title + " | ATSNEE",
     description: announcement.content,
   };
 }

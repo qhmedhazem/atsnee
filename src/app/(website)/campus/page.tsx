@@ -3,7 +3,7 @@ import { PageLayout } from "@/components/PageLayout";
 import Overview from "@/features/website/components/About/Overview";
 
 export const metadata: Metadata = {
-  title: "Campus",
+  title: "Campus | Applied Technology School for Nuclear Energy",
 };
 
 export default function Campus() {

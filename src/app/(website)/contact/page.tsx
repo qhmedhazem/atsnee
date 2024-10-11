@@ -5,7 +5,7 @@ import ContactInfo from "@/features/contact/components/ContactInfo";
 import ContactForm from "@/features/contact/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact us | Applied Technology School for Nuclear Energy",
   description:
     "El-Dabaa Nuclear School is a premier institution dedicated to educating and training the next generation of nuclear engineers and scientists.",
 };

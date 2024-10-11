@@ -59,11 +59,13 @@ model Event {
 }
 
 model Activity {
-  id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  date       DateTime
-  teams      Team[]     @relation("activityTeams")
-  photos     String[]
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  type        ActivityType   @default(COMPETITION)
+  name        String
+  description String?
+  date        DateTime?
+  teams       Team[]         @relation("activityTeams")
+  photos      String[]
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -72,7 +74,7 @@ model Activity {
 
 model Team {
   id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
+  name       String?
   activityId String       @db.ObjectId
   activity   Activity  @relation("activityTeams", fields: [activityId], references: [id])
   members    String[]
@@ -105,4 +107,10 @@ enum Role {
   TEACHER
   ADMIN
   STAFF
+}
+
+enum ActivityType {
+  COMPETITION
+  PROGRAM
+  CLUB
 }

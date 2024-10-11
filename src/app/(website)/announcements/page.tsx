@@ -8,7 +8,7 @@ import { previewAnnouncements } from "@/features/announcements/services/announce
 import { previewEvents } from "@/features/events/services/eventsService";
 
 export const metadata: Metadata = {
-  title: "Announcements",
+  title: "Announcements | Applied Technology School for Nuclear Energy",
 };
 
 export default async function Announcements() {

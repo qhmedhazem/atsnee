@@ -12,7 +12,7 @@ import AcademicsCurriculumSection from "@/features/website/components/Academics/
 
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Home | Applied Technology School for Nuclear Energy",
 };
 
 export default async function Home() {

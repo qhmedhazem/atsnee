@@ -1,14 +1,15 @@
 "use client";
 
-import { FC, HTMLAttributes, useRef, useState } from "react";
+import { FC, HTMLAttributes, useMemo, useRef, useState } from "react";
 import { cn, getCurrentDateInUserTimezone } from "@/lib/utils";
 import { Activity, Team } from "@prisma/client";
 import Gallery from "@/components/Gallery";
 import ActivityTeam from "./ActivityTeam";
 import { HTMLMotionProps, motion, useInView } from "framer-motion";
+import Markdown from "react-markdown";
 
 type ActivityWithTeams = Activity & {
-  teams: { members: string[] }[];
+  teams: { name?: string; members: string[] }[];
 };
 
 interface Props extends HTMLMotionProps<"div"> {
@@ -18,6 +19,7 @@ interface Props extends HTMLMotionProps<"div"> {
 const ActivityCard: FC<Props> = ({ activity, className, ...props }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+  const teamsMode = activity.teams.some((t) => t.members.length > 1);
 
   return (
     <motion.div
@@ -33,22 +35,30 @@ const ActivityCard: FC<Props> = ({ activity, className, ...props }) => {
     >
       <div className="space-y-2">
         <h2 className="text-2xl font-semibold text-primary">{activity.name}</h2>
-        <p className="text-primary/80">
-          {getCurrentDateInUserTimezone(activity.date)}
-        </p>
+        {activity.date && (
+          <p className="text-primary/80">
+            {getCurrentDateInUserTimezone(activity.date)}
+          </p>
+        )}
+        {activity.description && <Markdown>{activity.description}</Markdown>}
       </div>
 
       {activity.teams.length != 0 && (
         <div className="space-y-2">
-          <p className="text-primary/80">Participating Teams:</p>
-          <ul className="ml-2 space-y-2">
+          <p className="text-primary/80">Participations:</p>
+          <ul
+            className={cn(
+              "ml-2 space-y-2",
+              teamsMode ? "" : "list-disc list-inside"
+            )}
+          >
             {activity.teams.map((team, idx) => (
-              <li key={idx}>
-                <ActivityTeam
-                  name={"Team " + (idx + 1)}
-                  members={team.members}
-                />
-              </li>
+              <ActivityTeam
+                key={idx}
+                name={team.name || "Team " + (idx + 1)}
+                members={team.members}
+                memberMode={!teamsMode}
+              />
             ))}
           </ul>
         </div>

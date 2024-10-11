@@ -3,15 +3,19 @@
 const path = require("path");
 
 const nextConfig = {
-  images: {
-    remotePatterns: [
+  async redirects() {
+    return [
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        port: "",
-        pathname: "/**",
+        source: "/admin",
+        destination: "/admin/announcements",
+        permanent: true,
       },
-    ],
+      {
+        source: "/activities",
+        destination: "/activities/competitions",
+        permanent: true,
+      },
+    ];
   },
   env: {
     ISSUES_LINK: "https://github.com/qhmedhazem/atsnet-website/issues/new",
