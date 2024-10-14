@@ -9,7 +9,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const UpcomingEventsSection: FC<Props> = ({ events }) => {
   return (
-    <section id="events" className="w-full flex flex-col gap-8">
+    <section id="events" className="container w-full flex flex-col gap-8">
       <h1 className="text-3xl font-bold">Upcoming Events</h1>
       <ul className="grid place-items-center grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-2 lg:grid-rows-1 lg:grid-cols-3 gap-8">
         {events.map((a) => (

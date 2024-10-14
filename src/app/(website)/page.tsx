@@ -30,16 +30,12 @@ export default async function Home() {
       </div>
 
       {announcements.length > 0 && (
-        <SchoolNewsSection
-          className="container"
-          announcements={announcements}
-        />
+        <SchoolNewsSection announcements={announcements} />
       )}
+
       <AcademicsCurriculumSection />
-      {/* <AdmissionSection /> */}
-      <div className="container flex flex-col gap-20">
-        {events.length > 0 && <UpcomingEventsSection events={events} />}
-      </div>
+
+      {events.length > 0 && <UpcomingEventsSection events={events} />}
       <NewsLetterSection />
     </main>
   );

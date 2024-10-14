@@ -14,7 +14,7 @@ const SchoolNewsSection: FC<Props> = ({ announcements, ...props }) => {
     <section
       id="news"
       {...props}
-      className={cn("w-full flex flex-col gap-8", props.className)}
+      className={cn("container w-full flex flex-col gap-8", props.className)}
     >
       <h1 className="text-3xl font-bold">School News & Updates</h1>
       <ul className="grid place-items-center grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-2 lg:grid-rows-1 lg:grid-cols-3 gap-8">
