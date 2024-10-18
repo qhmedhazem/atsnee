@@ -43,7 +43,7 @@ const SettingsLayout: FC<Props> = ({ ...props }) => {
       </div>
 
       {/* Sidebar for larger screens */}
-      <div className="flex flex-col md:flex-row ">
+      <div className="flex flex-col md:flex-row max-h-full md:max-h-screen">
         <aside className="hidden md:block md:w-64 bg-primary text-white flex-shrink-0">
           <div className="p-6">
             <Brand withText={true} withDescription={false} />
