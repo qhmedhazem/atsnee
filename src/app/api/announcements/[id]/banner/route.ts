@@ -3,6 +3,7 @@ import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { db } from "@/lib/db";
 import { storageMiddleware } from "@/lib/middlewares/storage";
+import { del } from "@vercel/blob";
 
 export async function PUT(
   req: NextRequest,
@@ -28,10 +29,30 @@ export async function PUT(
       );
     }
 
+    const oldAnnouncement = await db.annoncement.findFirst({
+      where: { id },
+      select: { imageURL: true },
+    });
+
+    if (!oldAnnouncement) {
+      return NextResponse.json(
+        {
+          message: "Failed to upload file or save data.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (oldAnnouncement.imageURL) {
+      await del(oldAnnouncement.imageURL);
+    }
+
     const updatedAnnoncement = await db.annoncement.update({
       where: { id },
       data: {
-        imageURL: `/api/cdn/${attachment.id}${attachment.extension}`,
+        imageURL: attachment.url,
         updatedAt: new Date(),
       },
     });

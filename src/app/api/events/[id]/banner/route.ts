@@ -3,6 +3,7 @@ import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { db } from "@/lib/db";
 import { storageMiddleware } from "@/lib/middlewares/storage";
+import { del } from "@vercel/blob";
 
 export async function PUT(
   req: NextRequest,
@@ -28,10 +29,29 @@ export async function PUT(
       );
     }
 
+    const oldEvent = await db.event.findFirst({
+      where: { id },
+      select: { imageURL: true },
+    });
+
+    if (!oldEvent) {
+      return NextResponse.json(
+        {
+          message: "Failed to upload file or save data.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (oldEvent.imageURL) {
+      await del(oldEvent.imageURL);
+    }
     const updatedEvent = await db.event.update({
       where: { id },
       data: {
-        imageURL: `/api/cdn/${attachment.id}${attachment.extension}`,
+        imageURL: attachment.url,
         updatedAt: new Date(),
       },
     });

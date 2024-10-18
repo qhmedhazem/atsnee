@@ -14,23 +14,23 @@ const FooterSocialMediaLinks: FC = () => {
   return (
     <ul className="flex gap-4">
       <SocialMediaLink
-        href={process.env.FACEBOOK_LINK as string}
+        href={process.env.NEXT_PUBLIC_FACEBOOK_LINK as string}
         icon={<Facebook size={20} />}
       />
       <SocialMediaLink
-        href={process.env.LINKEDIN_LINK as string}
+        href={process.env.NEXT_PUBLIC_LINKEDIN_LINK as string}
         icon={<Linkedin size={20} />}
       />
       <SocialMediaLink
-        href={process.env.INSTAGRAM_LINK as string}
+        href={process.env.NEXT_PUBLIC_INSTAGRAM_LINK as string}
         icon={<Instagram size={20} />}
       />
       <SocialMediaLink
-        href={process.env.EMAIL as string}
+        href={process.env.NEXT_PUBLIC_EMAIL as string}
         icon={<MailIcon size={20} />}
       />
       <SocialMediaLink
-        href={process.env.TELEPHONE as string}
+        href={process.env.NEXT_PUBLIC_TELEPHONE as string}
         icon={<PhoneIcon size={20} />}
       />
     </ul>

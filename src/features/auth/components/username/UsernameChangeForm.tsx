@@ -35,7 +35,7 @@ const UsernameChangeForm: FC<Props> = ({ sameUser, user, onClose }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="space-y-4 min-w-fit">
+      <form onSubmit={handleSubmit} className="container space-y-4 min-w-fit">
         <FormField
           control={form.control}
           name="username"
@@ -68,7 +68,7 @@ const UsernameChangeForm: FC<Props> = ({ sameUser, user, onClose }) => {
             )}
           />
         )}
-        <div className="py-4 flex gap-4">
+        <div className="py-4 flex flex-col gap-4 sm:flex-row">
           <Button
             isLoading={mutation.isPending}
             disabled={mutation.isSuccess}

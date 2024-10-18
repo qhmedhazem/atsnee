@@ -16,7 +16,7 @@ const Navbar = () => {
       )}
     >
       <div className="py-2 lg:py-3 px-6 md:px-16 flex justify-between items-center w-full h-full gap-16">
-        <Brand withDescription={false} />
+        <Brand />
         <NavbarMenu isScrolled={isScrolled} />
       </div>
     </div>

@@ -43,7 +43,7 @@ const SettingsLayout: FC<Props> = ({ ...props }) => {
       </div>
 
       {/* Sidebar for larger screens */}
-      <div className="max-h-screen flex flex-col md:flex-row ">
+      <div className="flex flex-col md:flex-row ">
         <aside className="hidden md:block md:w-64 bg-primary text-white flex-shrink-0">
           <div className="p-6">
             <Brand withText={true} withDescription={false} />
@@ -99,6 +99,7 @@ export const SidebarContent: FC<SidebarContentProps> = ({ onClose }) => (
               href={item.href}
               className="block p-2 hover:bg-muted-foreground rounded-md"
               activeClass="bg-muted-foreground"
+              onClick={onClose}
             >
               {item.label}
             </Link>

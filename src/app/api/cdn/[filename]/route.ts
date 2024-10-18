@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import path from "path";
-import fs from "fs/promises";
-import { UPLOAD_DIR } from "@/lib/middlewares/storage";
+import { db } from "@/lib/db";
 
 export async function GET(
   req: Request,
@@ -10,32 +8,39 @@ export async function GET(
   const { filename } = params;
 
   try {
-    const filePath = path.join(UPLOAD_DIR, filename);
+    const fileMetadata = await db.attachment.findUnique({
+      where: { id: filename.split(".")[0] },
+    });
 
-    try {
-      await fs.access(filePath);
-    } catch (error) {
+    if (!fileMetadata || !fileMetadata.url) {
       return NextResponse.json({ message: "File not found" }, { status: 404 });
     }
 
-    const fileBuffer = await fs.readFile(filePath);
-    const fileExt = path.extname(filename).toLowerCase();
-    let mimeType = "application/octet-stream";
+    const blobUrl = fileMetadata.url;
 
-    if (fileExt === ".jpg" || fileExt === ".jpeg") mimeType = "image/jpeg";
-    else if (fileExt === ".png") mimeType = "image/png";
-    else if (fileExt === ".gif") mimeType = "image/gif";
+    const response = await fetch(blobUrl);
+    if (!response.ok) {
+      return NextResponse.json(
+        { message: "Error retrieving file" },
+        { status: 500 }
+      );
+    }
 
-    return new NextResponse(fileBuffer, {
+    const fileBuffer = await response.arrayBuffer();
+    const contentType =
+      response.headers.get("Content-Type") || "application/octet-stream";
+
+    return new NextResponse(fileBuffer as any, {
       status: 200,
       headers: {
-        "Content-Type": mimeType,
+        "Content-Type": contentType,
         "Content-Disposition": `inline; filename="${filename}"`,
+        "Cache-Control": "public, max-age=604800, immutable",
       },
     });
   } catch (error) {
     return NextResponse.json(
-      { message: "Error reading file" },
+      { message: "Error retrieving file" },
       { status: 500 }
     );
   }

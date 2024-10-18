@@ -1,13 +1,10 @@
 import "server-only";
-
 import type { NextRequest } from "next/server";
-import path from "path";
 import { ObjectId } from "mongodb";
-import fs from "fs/promises";
-import { Attachment, User } from "@prisma/client";
+import path from "path";
+import { put } from "@vercel/blob"; // Import Vercel Blob
 import { db } from "../db";
-
-export const UPLOAD_DIR = path.resolve(process.env.ROOT_PATH ?? "", "uploads");
+import { User, Attachment } from "@prisma/client";
 
 export const storageMiddleware = async (
   req: NextRequest,
@@ -21,28 +18,25 @@ export const storageMiddleware = async (
 
   if (file) {
     const id = new ObjectId();
-    const name = id.toString();
     const ext = path.extname((file as File).name);
-    const filename = name + ext;
-
+    const filename = id.toString() + ext;
     const buffer = Buffer.from(await file.arrayBuffer());
+
     try {
-      try {
-        await fs.access(UPLOAD_DIR);
-      } catch {
-        await fs.mkdir(UPLOAD_DIR);
-      }
-      await fs.writeFile(path.resolve(UPLOAD_DIR, filename), buffer);
+      const blob = await put("cdn/" + filename, buffer, {
+        access: "public",
+      });
 
       return db.attachment.create({
         data: {
-          id: name,
+          id: id.toString(),
           userId: user.id,
           extension: ext,
+          url: blob.url,
         },
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return null;
     }
   }

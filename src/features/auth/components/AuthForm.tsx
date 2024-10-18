@@ -13,9 +13,18 @@ import {
 import { Input } from "@/components/ui/Input";
 import { useAuthForm } from "../hooks/useAuthForm";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const AuthForm = () => {
   const { mutation, form, handleSubmit, serverError } = useAuthForm();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (mutation.isSuccess == true) {
+      router.refresh();
+    }
+  }, [mutation.isSuccess, router]);
 
   return (
     <Form {...form}>

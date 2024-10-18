@@ -61,11 +61,6 @@ const NewUser: FC<Props> = () => {
           <DrawerDescription>Create new User.</DrawerDescription>
         </DrawerHeader>
         <NewUserForm onClose={() => setOpen(false)} />
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

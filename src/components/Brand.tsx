@@ -24,12 +24,10 @@ const Brand: FC<Props> = ({ withText = true, withDescription = true }) => {
         <div>
           <p className="text-2xl font-bold">ATSNEE</p>
           {withDescription ? (
-            <p className="text-xs font-light">{t("school_name")}</p>
-          ) : (
-            <p className="hidden text-xs font-light md:inline">
+            <p className="hidden text-xs font-light xl:inline">
               {t("school_name")}
             </p>
-          )}
+          ) : null}
         </div>
       )}
     </Link>

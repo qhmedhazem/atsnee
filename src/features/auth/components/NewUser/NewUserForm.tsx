@@ -45,7 +45,7 @@ const NewUserForm: FC<Props> = ({ onClose }) => {
       <form
         onSubmit={handleSubmit}
         onReset={() => onClose?.()}
-        className="space-y-4 min-w-fit"
+        className="space-y-4 min-w-fit container"
       >
         <FormField
           control={form.control}
@@ -134,7 +134,7 @@ const NewUserForm: FC<Props> = ({ onClose }) => {
             </FormItem>
           )}
         />
-        <div className="py-4 flex gap-4">
+        <div className="py-4 flex flex-col gap-4 sm:flex-row">
           <Button
             isLoading={mutation.isPending}
             disabled={mutation.isSuccess}

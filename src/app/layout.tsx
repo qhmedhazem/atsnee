@@ -4,6 +4,7 @@ import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "@/components/Toast/Toaster";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Alexandria } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
@@ -21,6 +22,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={locale == "ar" ? "rtl" : "ltr"}>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GID as string} />
       <body className={alex.className}>
         <ReactQueryProvider>
           <NextIntlClientProvider messages={messages}>
