@@ -4,7 +4,11 @@ import React, { useEffect, useState } from "react";
 import Brand from "../Brand";
 import FooterLinksList from "./FooterLinksList";
 import { Separator } from "../ui/Separator";
-import { getA7medInstagram, getMohamedInstagram } from "@/lib/utils";
+import {
+  getA7medInstagram,
+  getMohamedInstagram,
+  getMuhammedInstagram,
+} from "@/lib/utils";
 import Link from "@/components/ui/Link";
 import FooterSocialMediaLinks from "./FooterSocialMediaLinks";
 import {
@@ -120,8 +124,9 @@ const Footer = () => {
             <div className="flex flex-col gap-4 lg:flex-row lg:justify-between text-primary-foreground/80">
               <p>© 2024 ATSNEE. All rights reserved</p>
               <p>
-                Developed by <Link href={getA7medInstagram()}>Ahmed</Link>, and{" "}
-                <Link href={getMohamedInstagram()}>Mohamed</Link>
+                Developed by <Link href={getA7medInstagram()}>Ahmed Hazem</Link>
+                , <Link href={getMohamedInstagram()}>Mohamed Wasfy</Link>, and{" "}
+                <Link href={getMuhammedInstagram()}>Muhammed Dahman</Link>
               </p>
             </div>
           </div>

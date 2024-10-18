@@ -45,6 +45,9 @@ export function getA7medInstagram() {
 export function getMohamedInstagram() {
   return `https://www.instagram.com/mohaamed.wasfy/`;
 }
+export function getMuhammedInstagram() {
+  return `https://www.instagram.com/muhammed_dahman/`;
+}
 
 export function captilazeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
