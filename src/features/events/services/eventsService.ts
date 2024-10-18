@@ -12,6 +12,22 @@ export const fetchEventById = async (id: string) => {
   });
 };
 
+export const fetchTheLastEventUpdate = async () => {
+  const lastEvent = await db.event.findFirst({
+    where: {
+      published: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+    select: {
+      updatedAt: true,
+    },
+  });
+
+  return lastEvent?.updatedAt;
+};
+
 export const previewEvents = async (limit?: number) => {
   return db.event
     .findMany({
