@@ -1,4 +1,3 @@
-import AboutSection from "@/features/website/components/Landing/AboutSection";
 import HeroSection from "@/features/website/components/Landing/HeroSection";
 import SchoolNewsSection from "@/features/website/components/Landing/SchoolNewsSection";
 
@@ -7,10 +6,13 @@ import { previewEvents } from "@/features/events/services/eventsService";
 import { Annoncement, Event } from "@prisma/client";
 import UpcomingEventsSection from "@/features/website/components/Landing/UpcomingEventsSection";
 import NewsLetterSection from "@/features/website/components/Landing/newsletter/NewsLetterSection";
-import AcademicsSection from "@/features/website/components/Landing/AcademicsSection";
 import AcademicsCurriculumSection from "@/features/website/components/Academics/AcademicsCurriculumSection";
 
 import type { Metadata } from "next";
+import IndustrySection from "@/features/website/components/Landing/IndustrySection";
+import ExpertFacultySection from "@/features/website/components/Landing/ExpertFacultySection";
+import InnovationSection from "@/features/website/components/Landing/InnovationSection";
+import RigorousCurriculumSection from "@/features/website/components/Landing/RigorousCurriculumSection";
 export const metadata: Metadata = {
   title: "Home | Applied Technology School for Nuclear Energy",
 };
@@ -25,8 +27,10 @@ export default async function Home() {
     <main className="justify-center flex flex-col gap-28">
       <HeroSection />
       <div className="w-full container flex flex-col gap-28">
-        <AboutSection />
-        <AcademicsSection />
+        <IndustrySection />
+        <ExpertFacultySection />
+        <InnovationSection />
+        <RigorousCurriculumSection />
       </div>
 
       {announcements.length > 0 && (

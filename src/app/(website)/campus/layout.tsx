@@ -24,9 +24,8 @@ export default async function CampusLayout({
       className="space-y-12"
     >
       <Tabs>
+        <Tab href="/campus/academics">Academics</Tab>
         <Tab href="/campus/life">Life</Tab>
-        <Tab href="/campus/residence">Residence</Tab>
-        <Tab href="/campus/facilities">Facilities</Tab>
       </Tabs>
 
       {children}

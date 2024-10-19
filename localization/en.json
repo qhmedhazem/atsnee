@@ -1,5 +1,66 @@
 {
     "brand": {
         "school_name": "Applied Technology School for Nuclear Energy in El-Dabaa"
+    },
+    "home": {
+        "hero_items": [
+            {
+                "title": "Welcome to the Applied Technology School for Nuclear Energy in El-Dabaa (ATSNEE)",
+                "description": "The First and Only School of Its Kind in Africa and the Arab World!"
+            },
+            {
+                "title": "The next generation of leaders in Electronics, Electricity, Mechanics, and Nuclear Engineering.",
+                "description": "education - research - innovation"
+            },
+            {
+                "title": "A highly selective admissions process",
+                "description": "we accept only 60 students each year, creating a group of outstanding and driven individuals"
+            }
+        ],
+        "industry_collaboration": {
+            "title": "Strong Industry Collaboration",
+            "subtitle": "Collaborations",
+            "description": "The school's collaboration with the Egyptian Nuclear Power Plants Authority provides students many powerful internships and direct access to work opportunities in their field, either immediately after graduation or while they continue their engineering degrees. "
+        },
+        "expert_faculty": {
+            "title": "Expert Faculty",
+            "subtitle": "Education",
+            "description": "A teaching staff composed of expert professors and selective teachers with backgrounds in nuclear engineering, physics, and other specialized fields. The faculty includes leaders from Egypt’s top research institutions, ensuring students receive world-class education."
+        },
+        "innovation": {
+            "title": "Focus on Innovation and Community Impact",
+            "subtitle": "Innovation",
+            "description": "The school aims to create a better community through education, research, and innovation. Students are encouraged to not only excel academically but also contribute to advancements in nuclear technology and engineering, making a positive societal impact."
+        },
+        "rigorous_curriculum": {
+            "title": "Rigorous and Comprehensive Curriculum",
+            "subtitle": "Academics",
+            "description": "With a curriculum that blends theoretical knowledge and hands-on training in electricity, electronics, mechanics, and nuclear physics, students graduate with highly competitive skills that set them apart in both higher education and the job market. The inclusion of graduation projects and practical labs further enhances their learning experience."
+        }
+    },
+    "campus": {
+        "academics": {
+            "industry_collaboration": {
+                "title": "Facilities and Learning Spaces",
+                "subtitle": "TEST",
+                "description": "The school's collaboration with the Egyptian Nuclear Power Plants Authority provides students many powerful internships and direct access to work opportunities in their field, either immediately after graduation or while they continue their engineering degrees. "
+            },
+            "industry_collaboration": {
+                "title": "Advanced Labs and Workshops",
+                "subtitle": "TEST",
+                "description": "The school's collaboration with the Egyptian Nuclear Power Plants Authority provides students many powerful internships and direct access to work opportunities in their field, either immediately after graduation or while they continue their engineering degrees. "
+            },
+            "industry_collaboration": {
+                "title": "Boarding Facilities",
+                "subtitle": "TEST",
+                "description": "The school's collaboration with the Egyptian Nuclear Power Plants Authority provides students many powerful internships and direct access to work opportunities in their field, either immediately after graduation or while they continue their engineering degrees. "
+            },
+            "industry_collaboration": {
+                "title": "Learning Spaces",
+                "subtitle": "TEST",
+                "description": "The school's collaboration with the Egyptian Nuclear Power Plants Authority provides students many powerful internships and direct access to work opportunities in their field, either immediately after graduation or while they continue their engineering degrees. "
+            }
+        },
+        "life": {}
     }
 }

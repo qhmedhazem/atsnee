@@ -3,8 +3,12 @@ import { Carousel } from "@material-tailwind/react";
 import { CarouselItem } from "./hero/CarouselItem";
 import { HeroCursor } from "./hero/HeroCursor";
 import { LinkButton } from "@/components/ui/Button";
+import { useTranslations } from 'next-intl';
+
+
 
 const HeroSection = () => {
+  const t = useTranslations('home');
   return (
     <section
       id="atsnet"
@@ -20,8 +24,8 @@ const HeroSection = () => {
         autoplayDelay={10_000}
       >
         <CarouselItem
-          title="Explore Advanced Nuclear Technology Education"
-          description="The next generation of energy professionals."
+          title={t('hero_items.0.title')}
+          description={t('hero_items.0.description')}
           imageSrc="/landing2.jpg"
           imageAlt="Explore Advanced Nuclear Technology"
         >
@@ -34,8 +38,8 @@ const HeroSection = () => {
           </LinkButton>
         </CarouselItem>
         <CarouselItem
-          title="Innovative Engineering Projects"
-          description="Creative solutions and technical advancements demonstrated by students and researchers."
+          title={t('hero_items.1.title')}
+          description={t('hero_items.1.description')}
           imageSrc="/landing4.jpg"
           imageAlt="Innovative Engineering Projects"
         >
@@ -48,8 +52,8 @@ const HeroSection = () => {
           </LinkButton>
         </CarouselItem>
         <CarouselItem
-          title="Where Talent Meets Opportunity"
-          description="A transparent and fair process to identify talented individuals for our programs."
+          title={t('hero_items.2.title')}
+          description={t('hero_items.2.description')}
           imageSrc="/landing6.jpg"
           imageAlt="Where Talent Meets Opportunity"
         >
