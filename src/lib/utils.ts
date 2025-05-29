@@ -1,4 +1,3 @@
-import Resizer from "react-image-file-resizer";
 import dayjs from "dayjs";
 import { PayloadRequest, CollectionSlug } from "payload";
 
