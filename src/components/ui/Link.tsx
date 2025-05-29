@@ -5,6 +5,7 @@ import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/hooks/use-locale";
 
 export interface LinkProps
   extends Omit<HTMLAttributes<HTMLAnchorElement>, "href"> {
@@ -14,11 +15,15 @@ export interface LinkProps
 }
 
 const Link: FC<LinkProps> = ({ className, activeClass, ...props }) => {
+  const locale = useLocale();
   const currentPath = usePathname();
 
   return (
     <NextLink
-      className={cn(className, currentPath == props.href ? activeClass : "")}
+      className={cn(
+        className,
+        currentPath == "/" + locale + props.href ? activeClass : ""
+      )}
       {...props}
     />
   );

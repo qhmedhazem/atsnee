@@ -1,15 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useScroll from "@/hooks/use-scroll";
+import { Navigation } from "@/payload-types";
+
 import Link from "@/components/ui/Link";
 import { motion } from "framer-motion";
 
 interface Props {
-  isScrolled: boolean;
+  navigation: Navigation;
 }
 
-export default function MobileNavMenu({ isScrolled }: Props) {
+export default function MobileNavMenu({ navigation }: Props) {
+  const isScrolled = useScroll();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -55,7 +58,38 @@ export default function MobileNavMenu({ isScrolled }: Props) {
         transition={{ duration: 0.4 }}
         className={`fixed inset-0 bg-gray-900 bg-opacity-90 z-30 flex flex-col items-center justify-center space-y-6 overflow-y-auto`}
       >
-        <Link
+        {navigation.navLinks?.map((link) => {
+          if (link.dropdownItems && link.dropdownItems.length > 0) {
+            return link.dropdownItems.map((link) => (
+              <Link
+                href={link.link || "#"}
+                key={link.id}
+                className="text-white text-3xl"
+                onClick={toggleMenu}
+              >
+                {link.title}
+              </Link>
+            ));
+          } else {
+            return (
+              <Link
+                href={link.url || "#"}
+                key={link.id}
+                className="text-white text-3xl"
+                onClick={toggleMenu}
+              >
+                {link.label}
+              </Link>
+            );
+          }
+        })}
+      </motion.div>
+    </div>
+  );
+}
+
+{
+  /* <Link
           href="/about"
           className="text-white text-3xl"
           onClick={toggleMenu}
@@ -110,8 +144,5 @@ export default function MobileNavMenu({ isScrolled }: Props) {
           onClick={toggleMenu}
         >
           Contact Us
-        </Link>
-      </motion.div>
-    </div>
-  );
+        </Link> */
 }

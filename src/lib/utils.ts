@@ -1,5 +1,6 @@
 import Resizer from "react-image-file-resizer";
 import dayjs from "dayjs";
+import { PayloadRequest, CollectionSlug } from "payload";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
@@ -13,7 +14,6 @@ dayjs.extend(localizedFormat);
 
 import { twMerge } from "tailwind-merge";
 import { type ClassValue, clsx } from "clsx";
-import { Attachment } from "@prisma/client";
 
 export const monthsNames = [
   "January",
@@ -38,46 +38,8 @@ export function getIssuesLink() {
   return process.env.ISSUES_LINK as string;
 }
 
-export function getA7medInstagram() {
-  return `https://instagram.com/qhmedhazem`;
-}
-
-export function getMohamedInstagram() {
-  return `https://www.instagram.com/mohaamed.wasfy/`;
-}
-export function getMuhammedInstagram() {
-  return `https://www.instagram.com/muhammed_dahman/`;
-}
-
 export function captilazeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-export const resizeAvatar = (file: File): Promise<string> =>
-  new Promise((resolve) => {
-    Resizer.imageFileResizer(
-      file,
-      300,
-      300,
-      "JPEG",
-      100,
-      0,
-      (uri) => {
-        resolve(uri as string);
-      },
-      "base64"
-    );
-  });
-
-export async function imageUploadHandler(file: File) {
-  const formData = new FormData();
-  formData.append("file", file);
-  const response = await fetch("/api/upload", {
-    method: "POST",
-    body: formData,
-  });
-  const json = (await response.json()) as Attachment;
-  return "/api/cdn/" + json.id + json.extension;
 }
 
 export function getDayStartEndDates(givenDate: Date) {
@@ -102,3 +64,74 @@ export function getCurrentDateInUserTimezone(date: Date) {
 export function getRelativeTime(date: Date) {
   return dayjs(date).from(dayjs());
 }
+
+const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
+  posts: "/posts",
+};
+
+type Props = {
+  collection: keyof typeof collectionPrefixMap;
+  slug: string;
+  req: PayloadRequest;
+};
+
+export const generatePreviewPath = ({ collection, slug, req }: Props) => {
+  const path = `${collectionPrefixMap[collection]}/${slug}`;
+
+  const params = {
+    slug,
+    collection,
+    path,
+  };
+
+  const encodedParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    encodedParams.append(key, value);
+  });
+
+  const isProduction =
+    process.env.NODE_ENV === "production" ||
+    Boolean(process.env.VERCEL_PROJECT_PRODUCTION_URL);
+  const protocol = isProduction ? "https:" : req.protocol;
+
+  const url = `${protocol}//${req.host}/next/preview?${encodedParams.toString()}`;
+
+  return url;
+};
+
+const canUseDOM = !!(
+  typeof window !== "undefined" &&
+  window.document &&
+  window.document.createElement
+);
+
+export const getServerSideURL = () => {
+  let url = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  if (!url && process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+
+  if (!url) {
+    url = "http://localhost:3000";
+  }
+
+  return url;
+};
+
+export const getClientSideURL = () => {
+  if (canUseDOM) {
+    const protocol = window.location.protocol;
+    const domain = window.location.hostname;
+    const port = window.location.port;
+
+    return `${protocol}//${domain}${port ? `:${port}` : ""}`;
+  }
+
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+
+  return process.env.NEXT_PUBLIC_SERVER_URL || "";
+};

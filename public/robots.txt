@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Disallow: /admin/*
+
+# Host
+Host: https://www.atsnee.org
+
+# Sitemaps
+Sitemap: https://www.atsnee.org/sitemap.xml
+Sitemap: https://www.atsnee.org/pages-sitemap.xml
+Sitemap: https://www.atsnee.org/posts-sitemap.xml

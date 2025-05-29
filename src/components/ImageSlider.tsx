@@ -1,10 +1,12 @@
-// src/ImageSlider.js
-import React, { useEffect, FC } from "react";
+// img/ImageSlider.js
+import React, { useEffect, FC, useCallback } from "react";
+import { Media } from "@/payload-types";
+
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 interface Props {
-  images: string[];
+  images: Media[];
   initialIndex: number;
   isOpen: boolean;
   onClose: () => void;
@@ -12,17 +14,20 @@ interface Props {
 
 const ImageSlider: FC<Props> = ({ images, initialIndex, isOpen, onClose }) => {
   // Convert images into the format required by react-image-gallery
-  const galleryImages = images.map((src) => ({
-    original: src,
-    thumbnail: src, // You can change this to a smaller version of the image if available
+  const galleryImages = images.map((img) => ({
+    original: img.sizes?.og?.url,
+    thumbnail: img.sizes?.og?.url, // You can change this to a smaller version of the image if available
   }));
 
   // Close slider on Escape key press
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      onClose();
-    }
-  };
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    },
+    [onClose]
+  );
 
   // Add event listener for keydown
   useEffect(() => {
@@ -32,7 +37,7 @@ const ImageSlider: FC<Props> = ({ images, initialIndex, isOpen, onClose }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, handleKeyDown]);
 
   // Do not render if the slider is not open
   if (!isOpen) return null;
@@ -49,6 +54,7 @@ const ImageSlider: FC<Props> = ({ images, initialIndex, isOpen, onClose }) => {
         </button>
         {/* Gallery */}
         <ImageGallery
+          // @ts-ignore
           items={galleryImages}
           startIndex={initialIndex}
           showThumbnails={true}

@@ -1,9 +1,7 @@
 import { NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { newsLetterSchema } from "@/features/website/validation/newsLetterSchema";
 import { z } from "zod";
-
-const prisma = new PrismaClient();
+import { newsLetterSchema } from "@/blocks/NewsLetter/validation/newsLetterSchema";
+import payload from "@/lib/payload";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -11,14 +9,14 @@ export async function POST(req: NextRequest) {
   try {
     const validatedData = newsLetterSchema.parse(body);
 
-    const newsLetter = await prisma.newsLetter.create({
+    await payload.create({
+      collection: "subscribers",
       data: {
-        email: validatedData?.email,
-        subscribedAt: new Date(),
+        email: validatedData.email,
       },
     });
 
-    return Response.json(newsLetter, { status: 201 });
+    return Response.json(validatedData, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return Response.json(

@@ -1,28 +1,8 @@
-const createNextIntlPlugin = require("next-intl/plugin");
-const withNextIntl = createNextIntlPlugin();
-const path = require("path");
+import path from "path";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: "/admin",
-        destination: "/admin/announcements",
-        permanent: true,
-      },
-      {
-        source: "/activities",
-        destination: "/activities/competitions",
-        permanent: true,
-      },
-      {
-        source: "/campus",
-        destination: "/campus/life",
-        permanent: true,
-      },
-    ];
-  },
   images: {
     remotePatterns: [
       {
@@ -33,7 +13,6 @@ const nextConfig = {
       },
     ],
   },
-  trailingSlash: false,
 };
 
-module.exports = withNextIntl(nextConfig);
+export default withPayload(nextConfig);

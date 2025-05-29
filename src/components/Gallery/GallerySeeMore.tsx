@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
+import { Media } from "@/payload-types";
 import Image from "next/image";
 import { FC, HTMLAttributes, useMemo } from "react";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  remainingImages: string[];
+  remainingImages: Media[];
 }
 
 const GallerySeeMore: FC<Props> = ({ remainingImages, ...props }) => {
@@ -38,10 +39,10 @@ const GallerySeeMore: FC<Props> = ({ remainingImages, ...props }) => {
             )}
           >
             <Image
-              src={image}
+              src={image.sizes?.og?.url || ""}
               width={remainingCount === 2 ? 150 : 300}
               height={remainingCount === 2 ? 300 : 300}
-              alt={`Remaining photo ${idx + 1}`}
+              alt={image.alt || `Remaining photo ${idx + 1}`}
               className={cn(
                 "w-full h-full object-cover rounded-sm",
                 remainingCount == 2 ? "" : ""

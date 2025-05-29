@@ -1,7 +1,6 @@
 import { FC, HTMLAttributes, ReactNode } from "react";
 import Link, { LinkProps } from "./ui/Link";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
 interface Props {
   children: ReactNode[];

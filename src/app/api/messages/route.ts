@@ -1,11 +1,7 @@
 import { NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { Session, getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import { contactSchema } from "@/features/contact/validation/contactSchema";
 import { z } from "zod";
-
-const prisma = new PrismaClient();
+import payload from "@/lib/payload";
+import { contactSchema } from "@/blocks/Contact/validation/contactSchema";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -13,18 +9,17 @@ export async function POST(req: NextRequest) {
   try {
     const validatedData = contactSchema.parse(body);
 
-    const newMessage = await prisma.message.create({
+    await payload.create({
+      collection: "messages",
       data: {
-        content: validatedData?.message || "Untitled",
-        createdAt: new Date(),
-        name: validatedData?.fullname || "Unknown User",
-        email: validatedData?.email,
-        phone: validatedData?.phone || "Unknown",
-        replied: false,
+        name: validatedData.fullname,
+        email: validatedData.email,
+        message: validatedData.message,
+        phone: validatedData.phone,
       },
     });
 
-    return Response.json(newMessage, { status: 201 });
+    return Response.json(validatedData, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return Response.json(
