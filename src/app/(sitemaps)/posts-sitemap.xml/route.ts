@@ -1,6 +1,7 @@
 import { getServerSideSitemap, ISitemapField } from "next-sitemap";
 import { unstable_cache } from "next/cache";
 import payload from "@/lib/payload";
+import { SUPPORTED_LOCALES } from "@/lib/locale";
 
 const getPostsSitemap = unstable_cache(
   async () => {
@@ -32,10 +33,13 @@ const getPostsSitemap = unstable_cache(
     const sitemap: ISitemapField[] = results.docs
       ? results.docs
           .filter((post) => Boolean(post?.slug))
-          .map((post) => ({
-            loc: `${SITE_URL}/announcements/${post?.slug}`,
-            lastmod: post.updatedAt || dateFallback,
-          }))
+          .map((post) =>
+            SUPPORTED_LOCALES.map((locale) => ({
+              loc: `${SITE_URL}/${locale}/announcements/${post?.slug}`,
+              lastmod: post.updatedAt || dateFallback,
+            }))
+          )
+          .flat()
       : [];
 
     return sitemap;

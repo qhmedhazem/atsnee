@@ -1,6 +1,7 @@
 import { getServerSideSitemap, ISitemapField } from "next-sitemap";
 import payload from "@/lib/payload";
 import { unstable_cache } from "next/cache";
+import { SUPPORTED_LOCALES } from "@/lib/locale";
 
 const getPagesSitemap = unstable_cache(
   async () => {
@@ -39,15 +40,18 @@ const getPagesSitemap = unstable_cache(
     const sitemap: ISitemapField[] = results.docs
       ? results.docs
           .filter((page) => Boolean(page?.slug))
-          .map((page) => {
-            return {
-              loc:
-                page?.slug === "home"
-                  ? `${SITE_URL}/`
-                  : `${SITE_URL}/${page?.slug}`,
-              lastmod: page.updatedAt || dateFallback,
-            };
-          })
+          .map((page) =>
+            SUPPORTED_LOCALES.map((locale) => {
+              return {
+                loc:
+                  page?.slug === "home"
+                    ? `${SITE_URL}/${locale}`
+                    : `${SITE_URL}/${locale}/${page?.slug}`,
+                lastmod: page.updatedAt || dateFallback,
+              };
+            })
+          )
+          .flat()
       : [];
 
     return [...defaultSitemap, ...sitemap];
