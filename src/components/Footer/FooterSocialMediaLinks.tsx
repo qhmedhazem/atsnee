@@ -25,7 +25,7 @@ const FooterSocialMediaLinks: FC<FooterSocialMediaLinksProps> = ({
   connections,
 }) => {
   return (
-    <ul className="flex gap-4">
+    <ul className="flex flex-wrap gap-3">
       {connections?.map((connection) => {
         let href = "";
         if (connection.blockType == "phone") {
@@ -40,8 +40,8 @@ const FooterSocialMediaLinks: FC<FooterSocialMediaLinksProps> = ({
 
         return (
           <li key={connection.id}>
-            <Link href={href} target="_blank" rel="noopener noreferrer">
-              <div className="border border-border/40 flex items-center justify-center w-10 h-10 rounded-full hover:bg-blue-500 hover:text-primary-foreground transition-colors duration-300">
+            <Link href={href} target="_blank" rel="noopener noreferrer" aria-label={connection.title || connection.blockType} title={connection.title || undefined}>
+              <div aria-hidden className="border border-border/40 flex items-center justify-center w-10 h-10 rounded-full hover:bg-blue-500 hover:text-primary-foreground transition-colors duration-300">
                 {typeToIcon[connection.blockType]}
               </div>
             </Link>

@@ -36,6 +36,8 @@ export function proxy(request: NextRequest) {
   // The URL is the source of truth: expose it to server components and remember it.
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set(LOCALE_HEADER, segment);
+  // Blocks don't receive searchParams; the announcement list reads ?page= from here.
+  requestHeaders.set("x-search", request.nextUrl.search);
   const response = NextResponse.next({ request: { headers: requestHeaders } });
 
   if (request.cookies.get(LOCALE_COOKIE)?.value !== segment) {
@@ -52,6 +54,6 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip internal paths, API, admin, and static files served from /public.
-    "/((?!_next|api|admin|lib|.well-known|favicon.ico|sitemap.xml|pages-sitemap.xml|posts-sitemap.xml|banner.jpg|robots*.txt).*)",
+    "/((?!_next|api|admin|lib|.well-known|favicon.ico|sitemap.xml|pages-sitemap.xml|posts-sitemap.xml|banner.jpg|announcement-default.webp|robots*.txt).*)",
   ],
 };

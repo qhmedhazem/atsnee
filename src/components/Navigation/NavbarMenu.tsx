@@ -23,7 +23,9 @@ export function NavbarMenu({ navigation, information }: Props) {
         "z-20 max-w-full fixed w-screen transition-colors h-20 duration-300 text-primary-foreground",
         isScrolled
           ? "bg-background text-primary"
-          : "bg-transparent text-primary-foreground"
+          : "bg-transparent text-primary-foreground",
+        // Transparent white-text header only works over a hero image; pages without one (404, errors) get the solid style.
+        "[body:not(:has([data-hero]))_&]:bg-background [body:not(:has([data-hero]))_&]:text-primary"
       )}
     >
       <div className="py-2 lg:py-3 px-6 md:px-16 flex justify-between items-center w-full h-full gap-16">

@@ -21,7 +21,7 @@ const Brand: FC<Props> = ({
       <Image
         width={1024}
         height={1024}
-        src={(information.logo as Media).sizes?.square?.url || ""}
+        src={(information.logo as Media).sizes?.square?.url || (information.logo as Media).url || ""}
         alt={information.name + " Logo"}
         className="w-16 h-16"
       />

@@ -6,9 +6,7 @@ import infoSectionConfig from "../InfoSection/config";
 import announcementListConfig from "../AnnouncementList/config";
 import richTextConfig from "../RichText/config";
 import logoListConfig from "../LogosList/config";
-import contactInfo from "../Contact/config";
 import tabsConfig from "../Tabs/config";
-import activitiesListConfig from "../ActivitiesList/config";
 
 const blockGroupConfig: Block = {
   slug: "blockGroup",
@@ -112,9 +110,7 @@ const blockGroupConfig: Block = {
         announcementListConfig,
         richTextConfig,
         logoListConfig,
-        contactInfo,
         tabsConfig,
-        activitiesListConfig,
       ],
       required: false,
     },

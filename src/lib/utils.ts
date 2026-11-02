@@ -54,11 +54,6 @@ export function getDayStartEndDates(givenDate: Date) {
   };
 }
 
-export function getCurrentDateInUserTimezone(date: Date) {
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const currentDateInUserTimezone = dayjs(date).tz(userTimezone);
-  return currentDateInUserTimezone.format("LL");
-}
 
 export function getRelativeTime(date: Date) {
   return dayjs(date).from(dayjs());

@@ -16,7 +16,8 @@ const getImageURL = (image?: Media | Config["db"]["defaultIDType"] | null) => {
   if (image && typeof image === "object" && "url" in image) {
     const ogUrl = image.sizes?.og?.url;
 
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url;
+    const path = ogUrl || image.url || "";
+    url = /^https?:\/\//.test(path) ? path : serverUrl + path; // R2 media URLs are already absolute
   }
 
   return url;

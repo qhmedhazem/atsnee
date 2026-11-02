@@ -27,6 +27,16 @@ const imageHeaderConfig: Block = {
       },
     },
     {
+      name: "size",
+      type: "select",
+      defaultValue: "default",
+      options: [
+        { label: "Default (500px)", value: "default" },
+        { label: "Compact (300px, 240px on mobile)", value: "compact" },
+      ],
+      admin: { description: "Compact suits list pages like News." },
+    },
+    {
       name: "description",
       type: "textarea",
       required: false,

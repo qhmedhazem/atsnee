@@ -17,7 +17,7 @@ export const CarouselItem: FC<Props> = ({
   children,
 }) => {
   return (
-    <div className="relative h-screen w-screen">
+    <div className="relative h-screen w-full">
       <Image
         src={imageSrc}
         alt={imageAlt}

@@ -34,7 +34,7 @@ export const Activities: CollectionConfig = {
         { label: "Program", value: "programs" },
         { label: "Club", value: "clubs" },
       ],
-      defaultValue: "competition",
+      defaultValue: "competitions",
     },
     {
       name: "teams",

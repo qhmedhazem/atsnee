@@ -39,6 +39,7 @@ export const Posts: CollectionConfig<"posts"> = {
     slug: true,
     category: true,
     banner: true,
+    gallery: true,
     publishedAt: true,
     brief: true,
 
@@ -73,7 +74,6 @@ export const Posts: CollectionConfig<"posts"> = {
       name: "title",
       type: "text",
       required: true,
-      localized: true,
     },
     {
       name: "category",
@@ -89,7 +89,6 @@ export const Posts: CollectionConfig<"posts"> = {
       type: "textarea",
       maxLength: 300,
       required: false,
-      localized: true,
     },
     {
       type: "tabs",
@@ -100,6 +99,12 @@ export const Posts: CollectionConfig<"posts"> = {
               name: "banner",
               type: "upload",
               relationTo: "media",
+            },
+            {
+              name: "gallery",
+              type: "array",
+              admin: { description: "Main place for the post's photos; shown as a grid with a viewer under the text." },
+              fields: [{ name: "image", type: "upload", relationTo: "media", required: true }],
             },
             {
               name: "content",
@@ -119,7 +124,6 @@ export const Posts: CollectionConfig<"posts"> = {
                 },
               }),
               label: false,
-              required: true,
             },
           ],
           label: "Content",
@@ -154,14 +158,17 @@ export const Posts: CollectionConfig<"posts"> = {
               descriptionPath: "meta.description",
               imagePath: "meta.image",
             }),
+            // Posts are written in one language only, so nothing on them is localized.
             MetaTitleField({
               hasGenerateFn: true,
+              overrides: { localized: false },
             }),
             MetaImageField({
               relationTo: "media",
+              overrides: { localized: false },
             }),
 
-            MetaDescriptionField({}),
+            MetaDescriptionField({ overrides: { localized: false } }),
             PreviewField({
               hasGenerateFn: true,
 

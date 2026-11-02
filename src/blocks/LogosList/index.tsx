@@ -16,7 +16,7 @@ const LogoList: React.FC<LogoListInterface> = ({ gap, size, logos }) => {
         return (
           <Image
             key={index}
-            src={image.sizes?.square?.url || ""}
+            src={image.sizes?.square?.url || image.url || ""}
             alt={image.alt || ""}
             width={size}
             height={size}

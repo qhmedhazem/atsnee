@@ -3,9 +3,9 @@ User-agent: *
 Disallow: /admin/*
 
 # Host
-Host: https://www.atsnee.org
+Host: http://localhost:3000
 
 # Sitemaps
-Sitemap: https://www.atsnee.org/sitemap.xml
-Sitemap: https://www.atsnee.org/pages-sitemap.xml
-Sitemap: https://www.atsnee.org/posts-sitemap.xml
+Sitemap: http://localhost:3000/sitemap.xml
+Sitemap: http://localhost:3000/pages-sitemap.xml
+Sitemap: http://localhost:3000/posts-sitemap.xml

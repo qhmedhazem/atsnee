@@ -19,15 +19,16 @@ const InfoSectionImageContainer: FC<ImageContainerProps> = ({
   ...props
 }) => {
   return (
-    image && (
+    // Older uploads may lack the fourThree size: fall back to the original.
+    (image?.sizes?.fourThree?.url || image?.url) && (
       <div className="relative w-full lg:w-1/2 text-center flex justify-center">
         <Image
           {...props}
-          className="object-cover object-center w-full h-full"
-          src={image.sizes?.fourThree?.url || ""}
+          className="object-cover object-center w-full h-full rounded-2xl"
+          src={image.sizes?.fourThree?.url || image.url!}
           alt={image.alt || ""}
-          width={image.sizes?.fourThree?.width || 1024}
-          height={image.sizes?.fourThree?.height || 1024}
+          width={image.sizes?.fourThree?.width || image.width || 1024}
+          height={image.sizes?.fourThree?.height || image.height || 1024}
         />
       </div>
     )

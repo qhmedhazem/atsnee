@@ -64,6 +64,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    'payload-mcp-api-keys': PayloadMcpApiKeyAuthOperations;
   };
   blocks: {
     carouselHeader: CarouselHeader;
@@ -79,9 +80,13 @@ export interface Config {
     activities: Activity;
     categories: Category;
     media: Media;
-    messages: Message;
+    'contact-messages': ContactMessage;
     subscribers: Subscriber;
+    'admission-subscribers': AdmissionSubscriber;
     users: User;
+    'oauth-grants': OauthGrant;
+    'payload-mcp-api-keys': PayloadMcpApiKey;
+    'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -93,9 +98,13 @@ export interface Config {
     activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    messages: MessagesSelect<false> | MessagesSelect<true>;
+    'contact-messages': ContactMessagesSelect<false> | ContactMessagesSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
+    'admission-subscribers': AdmissionSubscribersSelect<false> | AdmissionSubscribersSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'oauth-grants': OauthGrantsSelect<false> | OauthGrantsSelect<true>;
+    'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -103,26 +112,54 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'ar') | ('en' | 'ar')[];
   globals: {
     information: Information;
     navigation: Navigation;
     footer: Footer;
+    admission: Admission;
+    'news-page': NewsPage;
+    'activities-page': ActivitiesPage;
+    'contact-page': ContactPage;
   };
   globalsSelect: {
     information: InformationSelect<false> | InformationSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    admission: AdmissionSelect<false> | AdmissionSelect<true>;
+    'news-page': NewsPageSelect<false> | NewsPageSelect<true>;
+    'activities-page': ActivitiesPageSelect<false> | ActivitiesPageSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
   };
   locale: 'en' | 'ar';
-  user: User & {
-    collection: 'users';
+  widgets: {
+    collections: CollectionsWidget;
   };
+  user: User | PayloadMcpApiKey;
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface PayloadMcpApiKeyAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -180,7 +217,7 @@ export interface Media {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -191,6 +228,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -219,47 +257,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    small?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    medium?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    large?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    xlarge?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
     og?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    infoSection?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -290,6 +288,10 @@ export interface ImageHeader {
    * The title of the header.
    */
   title: string;
+  /**
+   * Compact suits list pages like News.
+   */
+  size?: ('default' | 'compact') | null;
   /**
    * A brief description for the header.
    */
@@ -587,7 +589,7 @@ export interface BlockGroup {
         | 'max-w-7xl'
       )
     | null;
-  blocks?: (InfoSection | AnnouncementList | RichText | LogoList | Contact | Tabs | ActivitiesList)[] | null;
+  blocks?: (InfoSection | AnnouncementList | RichText | LogoList | Tabs)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'blockGroup';
@@ -603,7 +605,7 @@ export interface InfoSection {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -648,7 +650,7 @@ export interface RichText {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -730,47 +732,6 @@ export interface LogoList {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Contact".
- */
-export interface Contact {
-  subtitle?: string | null;
-  title?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  reverse?: boolean | null;
-  form: {
-    name: string;
-    namePlaceholder: string;
-    phone: string;
-    phonePlaceholder: string;
-    email: string;
-    emailPlaceholder: string;
-    message: string;
-    messagePlaceholder: string;
-    sendButton: {
-      send: string;
-      sent: string;
-    };
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'contact';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Tabs".
  */
 export interface Tabs {
@@ -782,20 +743,6 @@ export interface Tabs {
   id?: string | null;
   blockName?: string | null;
   blockType: 'tabs';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ActivitiesList".
- */
-export interface ActivitiesList {
-  participations: string;
-  type: ('competitions' | 'programs' | 'clubs')[];
-  displayMode: 'max' | 'scroll';
-  sortBy: 'latest' | 'popular';
-  maxRows?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'activitiesList';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1078,7 +1025,7 @@ export interface ScrollingSection {
           root: {
             type: string;
             children: {
-              type: string;
+              type: any;
               version: number;
               [k: string]: unknown;
             }[];
@@ -1131,11 +1078,20 @@ export interface Post {
   category: string | Category;
   brief?: string | null;
   banner?: (string | null) | Media;
-  content: {
+  /**
+   * Main place for the post's photos; shown as a grid with a viewer under the text.
+   */
+  gallery?:
+    | {
+        image: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  content?: {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -1145,7 +1101,7 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   relatedPosts?: (string | Post)[] | null;
   meta?: {
     title?: string | null;
@@ -1205,17 +1161,18 @@ export interface Activity {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "messages".
+ * via the `definition` "contact-messages".
  */
-export interface Message {
+export interface ContactMessage {
   id: string;
-  replied?: boolean | null;
   name: string;
   email: string;
-  phone: string;
+  phone?: string | null;
   message: string;
-  createdAt: string;
+  locale?: string | null;
+  status: 'new' | 'replied' | 'archived';
   updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1224,8 +1181,20 @@ export interface Message {
 export interface Subscriber {
   id: string;
   email: string;
+  locale?: string | null;
   createdAt: string;
   updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admission-subscribers".
+ */
+export interface AdmissionSubscriber {
+  id: string;
+  email: string;
+  locale?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1242,9 +1211,226 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
   password?: string | null;
+  collection: 'users';
+}
+/**
+ * Apps connected to the MCP server with an admin login. Delete one to disconnect it.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-grants".
+ */
+export interface OauthGrant {
+  id: string;
+  clientName: string;
+  user: string | User;
+  lastUsedAt?: string | null;
+  redirectUri?: string | null;
+  clientId?: string | null;
+  codeHash?: string | null;
+  codeChallenge?: string | null;
+  codeExpiresAt?: string | null;
+  codeUsed?: boolean | null;
+  accessHash?: string | null;
+  accessExpiresAt?: string | null;
+  refreshHash?: string | null;
+  prevRefreshHash?: string | null;
+  refreshExpiresAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * API keys control which collections, resources, tools, and prompts MCP clients can access
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys".
+ */
+export interface PayloadMcpApiKey {
+  id: string;
+  /**
+   * The user that the API key is associated with.
+   */
+  user: string | User;
+  /**
+   * A useful label for the API key.
+   */
+  label?: string | null;
+  /**
+   * The purpose of the API key.
+   */
+  description?: string | null;
+  posts?: {
+    /**
+     * Allow clients to find posts.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create posts.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update posts.
+     */
+    update?: boolean | null;
+  };
+  activities?: {
+    /**
+     * Allow clients to find activities.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create activities.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update activities.
+     */
+    update?: boolean | null;
+  };
+  pages?: {
+    /**
+     * Allow clients to find pages.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update pages.
+     */
+    update?: boolean | null;
+  };
+  categories?: {
+    /**
+     * Allow clients to find categories.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create categories.
+     */
+    create?: boolean | null;
+  };
+  media?: {
+    /**
+     * Allow clients to find media.
+     */
+    find?: boolean | null;
+  };
+  subscribers?: {
+    /**
+     * Allow clients to find subscribers.
+     */
+    find?: boolean | null;
+  };
+  admissionSubscribers?: {
+    /**
+     * Allow clients to find admission-subscribers.
+     */
+    find?: boolean | null;
+  };
+  contactMessages?: {
+    /**
+     * Allow clients to find contact-messages.
+     */
+    find?: boolean | null;
+  };
+  admission?: {
+    /**
+     * Allow clients to find admission global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update admission global.
+     */
+    update?: boolean | null;
+  };
+  newsPage?: {
+    /**
+     * Allow clients to find news-page global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update news-page global.
+     */
+    update?: boolean | null;
+  };
+  activitiesPage?: {
+    /**
+     * Allow clients to find activities-page global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update activities-page global.
+     */
+    update?: boolean | null;
+  };
+  contactPage?: {
+    /**
+     * Allow clients to find contact-page global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update contact-page global.
+     */
+    update?: boolean | null;
+  };
+  information?: {
+    /**
+     * Allow clients to find information global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update information global.
+     */
+    update?: boolean | null;
+  };
+  navigation?: {
+    /**
+     * Allow clients to find navigation global.
+     */
+    find?: boolean | null;
+  };
+  footer?: {
+    /**
+     * Allow clients to find footer global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update footer global.
+     */
+    update?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  hasAPIKey?: boolean | null;
+  collection: 'payload-mcp-api-keys';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv".
+ */
+export interface PayloadKv {
+  id: string;
+  key: string;
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1274,22 +1460,39 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'messages';
-        value: string | Message;
+        relationTo: 'contact-messages';
+        value: string | ContactMessage;
       } | null)
     | ({
         relationTo: 'subscribers';
         value: string | Subscriber;
       } | null)
     | ({
+        relationTo: 'admission-subscribers';
+        value: string | AdmissionSubscriber;
+      } | null)
+    | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'oauth-grants';
+        value: string | OauthGrant;
+      } | null)
+    | ({
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -1299,10 +1502,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
+      };
   key?: string | null;
   value?:
     | {
@@ -1390,6 +1598,7 @@ export interface CarouselHeaderSelect<T extends boolean = true> {
 export interface ImageHeaderSelect<T extends boolean = true> {
   image?: T;
   title?: T;
+  size?: T;
   description?: T;
   id?: T;
   blockName?: T;
@@ -1412,9 +1621,7 @@ export interface BlockGroupSelect<T extends boolean = true> {
         announcementList?: T | AnnouncementListSelect<T>;
         richText?: T | RichTextSelect<T>;
         logoList?: T | LogoListSelect<T>;
-        contact?: T | ContactSelect<T>;
         tabs?: T | TabsSelect<T>;
-        activitiesList?: T | ActivitiesListSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -1477,36 +1684,6 @@ export interface LogoListSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Contact_select".
- */
-export interface ContactSelect<T extends boolean = true> {
-  subtitle?: T;
-  title?: T;
-  content?: T;
-  reverse?: T;
-  form?:
-    | T
-    | {
-        name?: T;
-        namePlaceholder?: T;
-        phone?: T;
-        phonePlaceholder?: T;
-        email?: T;
-        emailPlaceholder?: T;
-        message?: T;
-        messagePlaceholder?: T;
-        sendButton?:
-          | T
-          | {
-              send?: T;
-              sent?: T;
-            };
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Tabs_select".
  */
 export interface TabsSelect<T extends boolean = true> {
@@ -1517,19 +1694,6 @@ export interface TabsSelect<T extends boolean = true> {
         link?: T;
         id?: T;
       };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ActivitiesList_select".
- */
-export interface ActivitiesListSelect<T extends boolean = true> {
-  participations?: T;
-  type?: T;
-  displayMode?: T;
-  sortBy?: T;
-  maxRows?: T;
   id?: T;
   blockName?: T;
 }
@@ -1593,6 +1757,12 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   brief?: T;
   banner?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   content?: T;
   relatedPosts?: T;
   meta?:
@@ -1655,6 +1825,7 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1689,57 +1860,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        small?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        medium?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        large?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        xlarge?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
         og?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        infoSection?:
           | T
           | {
               url?: T;
@@ -1763,16 +1884,17 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "messages_select".
+ * via the `definition` "contact-messages_select".
  */
-export interface MessagesSelect<T extends boolean = true> {
-  replied?: T;
+export interface ContactMessagesSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   phone?: T;
   message?: T;
-  createdAt?: T;
+  locale?: T;
+  status?: T;
   updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1780,8 +1902,19 @@ export interface MessagesSelect<T extends boolean = true> {
  */
 export interface SubscribersSelect<T extends boolean = true> {
   email?: T;
+  locale?: T;
   createdAt?: T;
   updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admission-subscribers_select".
+ */
+export interface AdmissionSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  locale?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1797,8 +1930,148 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-grants_select".
+ */
+export interface OauthGrantsSelect<T extends boolean = true> {
+  clientName?: T;
+  user?: T;
+  lastUsedAt?: T;
+  redirectUri?: T;
+  clientId?: T;
+  codeHash?: T;
+  codeChallenge?: T;
+  codeExpiresAt?: T;
+  codeUsed?: T;
+  accessHash?: T;
+  accessExpiresAt?: T;
+  refreshHash?: T;
+  prevRefreshHash?: T;
+  refreshExpiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys_select".
+ */
+export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
+  user?: T;
+  label?: T;
+  description?: T;
+  posts?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  activities?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  pages?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  categories?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+      };
+  media?:
+    | T
+    | {
+        find?: T;
+      };
+  subscribers?:
+    | T
+    | {
+        find?: T;
+      };
+  admissionSubscribers?:
+    | T
+    | {
+        find?: T;
+      };
+  contactMessages?:
+    | T
+    | {
+        find?: T;
+      };
+  admission?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  newsPage?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  activitiesPage?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  contactPage?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  information?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  navigation?:
+    | T
+    | {
+        find?: T;
+      };
+  footer?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
+  hasAPIKey?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv_select".
+ */
+export interface PayloadKvSelect<T extends boolean = true> {
+  key?: T;
+  data?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1953,6 +2226,12 @@ export interface Navigation {
  */
 export interface Footer {
   id: string;
+  newsletter?: {
+    title?: string | null;
+    text?: string | null;
+    emailPrompt?: string | null;
+    ctaLabel?: string | null;
+  };
   sitemapTitle?: string | null;
   sitemap?:
     | {
@@ -1961,11 +2240,14 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Leave empty to show "© <current year> <short name>. All rights reserved."
+   */
   copyrightPrimary?: {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -1980,7 +2262,7 @@ export interface Footer {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -1991,6 +2273,155 @@ export interface Footer {
     };
     [k: string]: unknown;
   } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admission".
+ */
+export interface Admission {
+  id: string;
+  status: 'auto' | 'open' | 'closed';
+  academicYear?: string | null;
+  applyUrl?: string | null;
+  opensAt?: string | null;
+  closesAt?: string | null;
+  testsNote?: string | null;
+  hero: {
+    image: string | Media;
+    title: string;
+    description?: string | null;
+  };
+  /**
+   * Shown as a timeline under the status card, in this order.
+   */
+  stages?:
+    | {
+        title: string;
+        subtitle?: string | null;
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        image?: (string | null) | Media;
+        reverse?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-page".
+ */
+export interface NewsPage {
+  id: string;
+  hero: {
+    image: string | Media;
+    title: string;
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities-page".
+ */
+export interface ActivitiesPage {
+  id: string;
+  hero: {
+    image: string | Media;
+    title: string;
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page".
+ */
+export interface ContactPage {
+  id: string;
+  hero: {
+    image: string | Media;
+    title: string;
+    description?: string | null;
+  };
+  principal?: {
+    name?: string | null;
+    title?: string | null;
+    description?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    photo?: (string | null) | Media;
+  };
+  /**
+   * Counselors follow classes by graduation year. Graduated years hide themselves after July 31.
+   */
+  counselors?:
+    | {
+        name: string;
+        title?: string | null;
+        classes?: number[] | null;
+        phone?: string | null;
+        email?: string | null;
+        photo?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  workingHours?:
+    | {
+        day: 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
+        closed?: boolean | null;
+        open?: string | null;
+        close?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  hoursNote?: string | null;
+  replyTime?: string | null;
+  address?: string | null;
+  mapsUrl?: string | null;
+  /**
+   * From Google Maps: Share, Embed a map, copy the src of the iframe.
+   */
+  mapEmbedUrl?: string | null;
+  faq?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2126,6 +2557,14 @@ export interface NavigationSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  newsletter?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        emailPrompt?: T;
+        ctaLabel?: T;
+      };
   sitemapTitle?: T;
   sitemap?:
     | T
@@ -2142,6 +2581,138 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admission_select".
+ */
+export interface AdmissionSelect<T extends boolean = true> {
+  status?: T;
+  academicYear?: T;
+  applyUrl?: T;
+  opensAt?: T;
+  closesAt?: T;
+  testsNote?: T;
+  hero?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+      };
+  stages?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        content?: T;
+        image?: T;
+        reverse?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-page_select".
+ */
+export interface NewsPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities-page_select".
+ */
+export interface ActivitiesPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page_select".
+ */
+export interface ContactPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+      };
+  principal?:
+    | T
+    | {
+        name?: T;
+        title?: T;
+        description?: T;
+        phone?: T;
+        email?: T;
+        photo?: T;
+      };
+  counselors?:
+    | T
+    | {
+        name?: T;
+        title?: T;
+        classes?: T;
+        phone?: T;
+        email?: T;
+        photo?: T;
+        id?: T;
+      };
+  workingHours?:
+    | T
+    | {
+        day?: T;
+        closed?: T;
+        open?: T;
+        close?: T;
+        id?: T;
+      };
+  hoursNote?: T;
+  replyTime?: T;
+  address?: T;
+  mapsUrl?: T;
+  mapEmbedUrl?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BannerBlock".
  */
 export interface BannerBlock {
@@ -2150,7 +2721,7 @@ export interface BannerBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];

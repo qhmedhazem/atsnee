@@ -1,14 +1,13 @@
-import React, { cache } from "react";
+import React from "react";
 import type { Metadata } from "next";
 import { draftMode, headers } from "next/headers";
 
-import payload from "@/lib/payload";
 import type { Page as PageType } from "@/payload-types";
 
 import { RenderPageLayout } from "@/blocks/RenderPageLayout";
 import { LivePreviewListener } from "@/components/LivePreviewListener";
 import { getLocale } from "@/lib/getLocale";
-import type { Locale } from "@/lib/locale";
+import { queryPageBySlug } from "@/lib/queryPage";
 import PageNotFound from "@/components/PageNotFound";
 import { generateMeta } from "@/lib/generateMeta";
 
@@ -85,25 +84,3 @@ export async function generateMetadata({
 
   return generateMeta({ doc: page });
 }
-
-const queryPageBySlug = cache(
-  async ({ slug, locale }: { slug: string; locale: Locale }) => {
-    const { isEnabled: draft } = await draftMode();
-
-    const result = await payload.find({
-      collection: "pages",
-      locale: locale,
-      draft,
-      limit: 1,
-      pagination: false,
-      overrideAccess: draft,
-      where: {
-        slug: {
-          equals: slug,
-        },
-      },
-    });
-
-    return result.docs?.[0] || null;
-  }
-);

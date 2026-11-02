@@ -29,6 +29,7 @@ export const Subscribers: CollectionConfig = {
         readOnly: true,
       },
     },
+    { name: "locale", type: "text", admin: { readOnly: true } },
     {
       name: "createdAt",
       type: "date",

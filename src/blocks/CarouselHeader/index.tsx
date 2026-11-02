@@ -35,7 +35,8 @@ const CarouselHeader: React.FC<Props> = ({
 
   return (
     <section
-      className="relative w-screen h-screen max-h-svh z-0 overflow-hidden"
+      data-hero
+      className="relative w-full h-screen max-h-svh z-0 overflow-hidden"
       dir="ltr"
     >
       <div className="relative overflow-x-hidden w-full h-full max-h-svh">
@@ -52,7 +53,7 @@ const CarouselHeader: React.FC<Props> = ({
                 <CarouselItem
                   title={item.title}
                   description={item.description || ""}
-                  imageSrc={image.sizes?.og?.url || ""}
+                  imageSrc={image.sizes?.og?.url || image.url || ""}
                   imageAlt={image.alt || ""}
                 >
                   {cta && cta.url && cta.label ? (

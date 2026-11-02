@@ -5,6 +5,7 @@ import useScroll from "@/hooks/use-scroll";
 import { Navigation } from "@/payload-types";
 
 import Link from "@/components/ui/Link";
+import { useLocale } from "@/hooks/use-locale";
 import { motion } from "framer-motion";
 
 interface Props {
@@ -14,6 +15,8 @@ interface Props {
 export default function MobileNavMenu({ navigation }: Props) {
   const isScrolled = useScroll();
   const [isOpen, setIsOpen] = useState(false);
+  // Park the closed menu off the start side; parked off the left in RTL it would add horizontal scroll.
+  const hidden = useLocale() === "ar" ? "100%" : "-100%";
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -53,8 +56,8 @@ export default function MobileNavMenu({ navigation }: Props) {
 
       {/* Full-Screen Overlay Menu */}
       <motion.div
-        initial={{ opacity: 0, x: "-100%" }}
-        animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : "-100%" }}
+        initial={{ opacity: 0, x: hidden }}
+        animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : hidden }}
         transition={{ duration: 0.4 }}
         className={`fixed inset-0 bg-gray-900/90 z-30 flex flex-col items-center justify-center space-y-6 overflow-y-auto`}
       >

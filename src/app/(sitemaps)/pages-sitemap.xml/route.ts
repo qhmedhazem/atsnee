@@ -3,6 +3,7 @@ import payload from "@/lib/payload";
 import { unstable_cache } from "next/cache";
 import { SUPPORTED_LOCALES } from "@/lib/locale";
 import { getServerSideURL } from "@/lib/getURL";
+import { ACTIVITY_TYPES } from "@/blocks/ActivitiesList";
 
 const getPagesSitemap = unstable_cache(
   async () => {
@@ -28,22 +29,18 @@ const getPagesSitemap = unstable_cache(
 
     const dateFallback = new Date().toISOString();
 
-    const sitemap: ISitemapField[] = results.docs
-      ? results.docs
-          .filter((page) => Boolean(page?.slug))
-          .map((page) =>
-            SUPPORTED_LOCALES.map((locale) => {
-              return {
-                loc:
-                  page?.slug === "home"
-                    ? `${SITE_URL}/${locale}`
-                    : `${SITE_URL}/${locale}/${page?.slug}`,
-                lastmod: page.updatedAt || dateFallback,
-              };
-            })
-          )
-          .flat()
-      : [];
+    // CMS pages, plus the pages served by their own routes from globals (news, admission, contact, activities tabs).
+    const entries = [
+      ...results.docs
+        .filter((page) => Boolean(page?.slug))
+        .map((page) => ({ path: page.slug === "home" ? "" : `/${page.slug}`, lastmod: page.updatedAt })),
+      ...["/announcements", "/admission", "/contact", ...ACTIVITY_TYPES.map((type) => `/activities/${type}`)].map(
+        (path) => ({ path, lastmod: undefined as string | undefined }),
+      ),
+    ];
+    const sitemap: ISitemapField[] = entries.flatMap(({ path, lastmod }) =>
+      SUPPORTED_LOCALES.map((locale) => ({ loc: `${SITE_URL}/${locale}${path}`, lastmod: lastmod || dateFallback })),
+    );
 
     return sitemap;
   },

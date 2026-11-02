@@ -5,18 +5,14 @@ import InfoSection from "@/blocks/InfoSection";
 import AnnouncementList from "@/blocks/AnnouncementList";
 import RichText from "@/blocks/RichText";
 import LogoList from "@/blocks/LogosList";
-import Contact from "@/blocks/Contact";
 import Tabs from "@/blocks/Tabs";
-import ActivitiesList from "@/blocks/ActivitiesList";
 
 const blockComponents = {
   infoSection: InfoSection,
   announcementList: AnnouncementList,
   richText: RichText,
   logoList: LogoList,
-  contact: Contact,
   tabs: Tabs,
-  activitiesList: ActivitiesList,
 };
 
 interface RenderPageBlocksProps {
