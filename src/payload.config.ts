@@ -6,7 +6,6 @@ import sharp from "sharp";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
-import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 
 import Information from "./globals/Information";
 import Navigation from "./globals/Navigation";
@@ -32,7 +31,6 @@ import richTextConfig from "./blocks/RichText/config";
 import logosListConfig from "./blocks/LogosList/config";
 import scrollingSectionBlock from "./blocks/ScrollingSection/config";
 import tabsConfig from "./blocks/Tabs/config";
-// import contactInfo from "./blocks/Contact/config";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -89,19 +87,6 @@ export default buildConfig({
       },
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
-    // formBuilderPlugin({
-    //   fields: {
-    //     payment: false,
-    //   },
-    //   // formOverrides: {
-    //   //   fields: ({ defaultFields }) => {
-    //   //     return defaultFields.map((field) => ({
-    //   //       ...field,
-    //   //       localized: true,
-    //   //     }));
-    //   //   },
-    //   // },
-    // }),
   ],
   localization: {
     locales: [

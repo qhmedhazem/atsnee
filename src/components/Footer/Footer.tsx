@@ -6,7 +6,7 @@ import Link from "@/components/ui/Link";
 import FooterSocialMediaLinks from "./FooterSocialMediaLinks";
 import { MapPin } from "lucide-react";
 import payload from "@/lib/payload";
-import { getLocale } from "@/lib/locale";
+import { getLocale } from "@/lib/getLocale";
 import RichText from "../RichText";
 import { headers } from "next/headers";
 
@@ -67,7 +67,7 @@ const Footer = async () => {
                 data={footer.copyrightPrimary}
                 enableGutter={false}
                 enableProse={false}
-                className="!text-primary-foreground/80 !text-sm !p-0"
+                className="text-primary-foreground/80! text-sm! p-0!"
               />
             )}
             {footer.copyrightSecondary && (
@@ -75,7 +75,7 @@ const Footer = async () => {
                 data={footer.copyrightSecondary}
                 enableGutter={false}
                 enableProse={false}
-                className="!text-primary-foreground/80 !text-sm !p-0"
+                className="text-primary-foreground/80! text-sm! p-0!"
               />
             )}
           </div>

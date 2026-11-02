@@ -34,7 +34,7 @@ export const Tab: FC<TabProps> = ({
     <Link
       href={href}
       className={cn(
-        "flex flex-grow justify-center items-center w-full h-full px-3 py-1.5 rounded-sm",
+        "flex grow justify-center items-center w-full h-full px-3 py-1.5 rounded-sm",
         className
       )}
       activeClass={cn("bg-white", activeClass)}

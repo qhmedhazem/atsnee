@@ -34,7 +34,7 @@ export default function MobileNavMenu({ navigation }: Props) {
   return (
     <div className="relative inline-block lg:hidden">
       <button
-        className="relative text-primary flex flex-col items-center justify-center space-y-1 z-50 focus:outline-none"
+        className="relative text-primary flex flex-col items-center justify-center space-y-1 z-50 focus:outline-hidden"
         onClick={toggleMenu}
       >
         <motion.div
@@ -56,7 +56,7 @@ export default function MobileNavMenu({ navigation }: Props) {
         initial={{ opacity: 0, x: "-100%" }}
         animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : "-100%" }}
         transition={{ duration: 0.4 }}
-        className={`fixed inset-0 bg-gray-900 bg-opacity-90 z-30 flex flex-col items-center justify-center space-y-6 overflow-y-auto`}
+        className={`fixed inset-0 bg-gray-900/90 z-30 flex flex-col items-center justify-center space-y-6 overflow-y-auto`}
       >
         {navigation.navLinks?.map((link) => {
           if (link.dropdownItems && link.dropdownItems.length > 0) {
@@ -88,61 +88,3 @@ export default function MobileNavMenu({ navigation }: Props) {
   );
 }
 
-{
-  /* <Link
-          href="/about"
-          className="text-white text-3xl"
-          onClick={toggleMenu}
-        >
-          About
-        </Link>
-        <Link
-          href="/academics"
-          className="text-white text-3xl"
-          onClick={toggleMenu}
-        >
-          Academics
-        </Link>
-        <Link
-          href="/nuclearpowerplant"
-          className="text-white text-3xl"
-          onClick={toggleMenu}
-        >
-          Nuclear Power Plant
-        </Link>
-        <Link
-          href="/campus"
-          className="text-white text-3xl"
-          onClick={toggleMenu}
-        >
-          Campus
-        </Link>
-        <Link
-          href="/announcements"
-          className="text-white text-3xl"
-          onClick={toggleMenu}
-        >
-          Announcements
-        </Link>
-        <Link
-          href="/admission"
-          className="text-white text-3xl"
-          onClick={toggleMenu}
-        >
-          Admission
-        </Link>
-        <Link
-          href="/activities"
-          className="text-white text-3xl"
-          onClick={toggleMenu}
-        >
-          Activities
-        </Link>
-        <Link
-          href="/contact"
-          className="text-white text-3xl"
-          onClick={toggleMenu}
-        >
-          Contact Us
-        </Link> */
-}

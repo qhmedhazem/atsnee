@@ -1,7 +1,7 @@
 import React from "react";
 import { AnnouncementList as AnnouncementListInterface } from "@/payload-types";
 import payload from "@/lib/payload";
-import { getLocale } from "@/lib/locale";
+import { getLocale } from "@/lib/getLocale";
 import VerticalList from "@/components/VerticalList";
 import AnnouncementCard from "./AnnouncementCard";
 import { headers } from "next/headers";

@@ -4,7 +4,7 @@ import { ActivitiesList as ActivitiesListInterface } from "@/payload-types";
 
 import VerticalList from "@/components/VerticalList";
 import ActivityCard from "./ActivityCard";
-import { getLocale } from "@/lib/locale";
+import { getLocale } from "@/lib/getLocale";
 import { headers } from "next/headers";
 
 const ActivitiesList: React.FC<ActivitiesListInterface> = async ({

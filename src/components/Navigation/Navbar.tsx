@@ -1,7 +1,7 @@
 import { NavbarMenu } from "./NavbarMenu";
 
 import payload from "@/lib/payload";
-import { getLocale } from "@/lib/locale";
+import { getLocale } from "@/lib/getLocale";
 import { headers } from "next/headers";
 
 const Navbar = async () => {

@@ -5,7 +5,7 @@ import type { Media, Page, Post, Config } from "../payload-types";
 import { mergeOpenGraph } from "./mergeOpenGraph";
 import { getServerSideURL } from "./getURL";
 import payload from "./payload";
-import { getLocale } from "./locale";
+import { getLocale } from "./getLocale";
 import { headers } from "next/headers";
 
 const getImageURL = (image?: Media | Config["db"]["defaultIDType"] | null) => {

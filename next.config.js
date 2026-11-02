@@ -1,4 +1,3 @@
-import path from "path";
 import { withPayload } from "@payloadcms/next/withPayload";
 
 /** @type {import('next').NextConfig} */

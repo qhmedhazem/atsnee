@@ -7,7 +7,8 @@ import type { Page as PageType } from "@/payload-types";
 
 import { RenderPageLayout } from "@/blocks/RenderPageLayout";
 import { LivePreviewListener } from "@/components/LivePreviewListener";
-import { getLocale, Locale } from "@/lib/locale";
+import { getLocale } from "@/lib/getLocale";
+import type { Locale } from "@/lib/locale";
 import PageNotFound from "@/components/PageNotFound";
 import { generateMeta } from "@/lib/generateMeta";
 

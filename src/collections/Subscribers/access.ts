@@ -13,15 +13,7 @@ export const del: Access = ({ req: { user } }) => {
 };
 
 export const read: Access = ({ req: { user } }) => {
-  if (user) {
-    return true;
-  }
-
-  return {
-    _status: {
-      equals: "published",
-    },
-  };
+  return Boolean(user);
 };
 
 export const update: Access = ({ req: { user } }) => {

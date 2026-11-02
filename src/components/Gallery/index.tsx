@@ -36,7 +36,7 @@ const Gallery: FC<Props> = ({ photos }) => {
   return (
     <div
       className={cn(
-        "grid gap-2 w-full max-h-[20rem]",
+        "grid gap-2 w-full max-h-80",
         isSmall ? "grid-cols-2" : "grid-cols-3"
       )}
     >

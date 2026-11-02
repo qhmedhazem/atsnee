@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import Brand from "../Brand/client";
 import DesktopNavbar from "./Desktop/DesktopNavMenu";
 import MobileNavMenu from "./Mobile/MobileNavMenu";
+import LanguageSwitcher from "./LanguageSwitcher";
 import useScroll from "@/hooks/use-scroll";
 
 interface Props {
@@ -27,8 +28,11 @@ export function NavbarMenu({ navigation, information }: Props) {
     >
       <div className="py-2 lg:py-3 px-6 md:px-16 flex justify-between items-center w-full h-full gap-16">
         <Brand information={information} />
-        <MobileNavMenu navigation={navigation} />
-        <DesktopNavbar navigation={navigation} />
+        <div className="flex items-center gap-2">
+          <DesktopNavbar navigation={navigation} />
+          <LanguageSwitcher />
+          <MobileNavMenu navigation={navigation} />
+        </div>
       </div>
     </div>
   );

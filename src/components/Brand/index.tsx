@@ -5,7 +5,7 @@ import Link from "@/components/ui/Link";
 import Image from "next/image";
 
 import { Media } from "@/payload-types";
-import { getLocale } from "@/lib/locale";
+import { getLocale } from "@/lib/getLocale";
 import { headers } from "next/headers";
 
 interface Props {

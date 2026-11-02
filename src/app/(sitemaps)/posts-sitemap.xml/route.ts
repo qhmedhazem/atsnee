@@ -2,13 +2,11 @@ import { getServerSideSitemap, ISitemapField } from "next-sitemap";
 import { unstable_cache } from "next/cache";
 import payload from "@/lib/payload";
 import { SUPPORTED_LOCALES } from "@/lib/locale";
+import { getServerSideURL } from "@/lib/getURL";
 
 const getPostsSitemap = unstable_cache(
   async () => {
-    const SITE_URL =
-      process.env.NEXT_PUBLIC_SERVER_URL ||
-      process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-      "https://www.atsnee.org";
+    const SITE_URL = getServerSideURL();
 
     const results = await payload.find({
       collection: "posts",

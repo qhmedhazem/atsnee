@@ -3,7 +3,7 @@ import { create, del, read, update } from "./access";
 import { generatePreviewPath } from "@/lib/utils";
 import { slugField } from "@/components/Fields/slug";
 
-// import { revalidateDelete, revalidatePage } from "./hooks/revalidatePage";
+import { revalidateDelete, revalidatePage } from "./hooks/revalidatePage";
 
 import {
   MetaDescriptionField,
@@ -17,7 +17,6 @@ import blockGroupConfig from "@/blocks/BlockGroup/config";
 import carouselHeaderConfig from "@/blocks/CarouselHeader/config";
 import imageHeaderConfig from "@/blocks/ImageHeader/config";
 import cardsSectionConfig from "@/blocks/CardsSection/config";
-import { Icon } from "lucide-react";
 import newsLetterConfig from "@/blocks/NewsLetter/config";
 import scrollingSectionBlock from "@/blocks/ScrollingSection/config";
 
@@ -128,9 +127,8 @@ export const Pages: CollectionConfig<"pages"> = {
     ...slugField(),
   ],
   hooks: {
-    // afterChange: [revalidatePage],
-    // beforeChange: [populatePublishedAt],
-    // beforeDelete: [revalidateDelete],
+    afterChange: [revalidatePage],
+    afterDelete: [revalidateDelete],
   },
   versions: {
     drafts: {

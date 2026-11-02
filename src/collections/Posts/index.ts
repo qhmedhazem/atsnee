@@ -1,5 +1,5 @@
 import type { CollectionConfig } from "payload";
-// import { revalidateDelete, revalidatePost } from "./hooks/revalidatePost";
+import { revalidateDelete, revalidatePost } from "./hooks/revalidatePost";
 
 import {
   BlocksFeature,
@@ -194,10 +194,10 @@ export const Posts: CollectionConfig<"posts"> = {
     },
     ...slugField(),
   ],
-  // hooks: {
-  //   afterChange: [revalidatePost],
-  //   afterDelete: [revalidateDelete],
-  // },
+  hooks: {
+    afterChange: [revalidatePost],
+    afterDelete: [revalidateDelete],
+  },
   versions: {
     drafts: {
       autosave: {

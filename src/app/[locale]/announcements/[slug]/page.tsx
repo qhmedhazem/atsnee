@@ -8,7 +8,7 @@ import PageNotFound from "@/components/PageNotFound";
 
 import { generateMeta } from "@/lib/generateMeta";
 import { RenderPageLayout } from "@/blocks/RenderPageLayout";
-import { getLocale } from "@/lib/locale";
+import { getLocale } from "@/lib/getLocale";
 
 // export async function generateStaticParams() {
 //   const posts = await payload.find({

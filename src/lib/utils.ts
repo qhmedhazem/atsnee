@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { PayloadRequest, CollectionSlug } from "payload";
+import type { PayloadRequest, CollectionSlug } from "payload";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
@@ -65,7 +65,8 @@ export function getRelativeTime(date: Date) {
 }
 
 const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
-  posts: "/posts",
+  posts: "/announcements",
+  pages: "",
 };
 
 type Props = {

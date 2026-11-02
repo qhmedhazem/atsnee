@@ -22,14 +22,17 @@ const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [domReady, setDomReady] = React.useState(false);
+  // false during SSR/hydration, true once mounted on the client
+  const domReady = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const portalRoot =
     typeof document !== "undefined" &&
     document.getElementById("__modal-wrapper");
 
   React.useEffect(() => {
-    setDomReady(true);
-
     if (isOpen) {
       document.body.style.overflow = "hidden";
     }
@@ -60,7 +63,7 @@ const Modal: React.FC<ModalProps> = ({
               duration: 0.2,
               type: "tween",
             }}
-            className=" bg-accent min-w-2xl max-w-[52rem] w-full h-full mx-[auto] place-self-end rounded-t-xl"
+            className=" bg-accent min-w-2xl max-w-208 w-full h-full mx-auto place-self-end rounded-t-xl"
           >
             {bannerURL ? (
               <div

@@ -1,29 +1,29 @@
 "use client";
 
-import { FC, HTMLAttributes, ReactNode } from "react";
+import { ComponentProps, FC } from "react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { localizeHref } from "@/lib/locale";
 import { useLocale } from "@/hooks/use-locale";
 
 export interface LinkProps
-  extends Omit<HTMLAttributes<HTMLAnchorElement>, "href"> {
-  href: string; // Ensure href is passed correctly
+  extends Omit<ComponentProps<typeof NextLink>, "href"> {
+  href: string;
   activeClass?: string; // Class to apply when active
-  children: ReactNode; // Children elements (link text, etc.)
 }
 
-const Link: FC<LinkProps> = ({ className, activeClass, ...props }) => {
+// next/link that keeps the visitor in their current language.
+const Link: FC<LinkProps> = ({ className, activeClass, href, ...props }) => {
   const locale = useLocale();
   const currentPath = usePathname();
+  const localized = localizeHref(href, locale);
 
   return (
     <NextLink
-      className={cn(
-        className,
-        currentPath == "/" + locale + props.href ? activeClass : ""
-      )}
+      href={localized}
+      className={cn(className, currentPath == localized ? activeClass : "")}
       {...props}
     />
   );

@@ -12,7 +12,7 @@ import Navbar from "@/components/Navigation/Navbar";
 import Footer from "@/components/Footer/Footer";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
 
-import { getLocale } from "@/lib/locale";
+import { getLocale } from "@/lib/getLocale";
 import { getServerSideURL } from "@/lib/getURL";
 import { mergeOpenGraph } from "@/lib/mergeOpenGraph";
 
@@ -36,6 +36,7 @@ export default async function RootLayout({
   return (
     <html
       className={alex.className}
+      lang={locale}
       dir={locale == "ar" ? "rtl" : "ltr"}
       suppressHydrationWarning
     >

@@ -3,7 +3,7 @@ import React, { useEffect, FC, useCallback } from "react";
 import { Media } from "@/payload-types";
 
 import ImageGallery from "react-image-gallery";
-import "react-image-gallery/styles/css/image-gallery.css";
+import "react-image-gallery/styles/image-gallery.css";
 
 interface Props {
   images: Media[];
@@ -43,7 +43,7 @@ const ImageSlider: FC<Props> = ({ images, initialIndex, isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="w-full h-screen fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+    <div className="w-full h-screen fixed inset-0 flex items-center justify-center bg-black/75 z-50">
       <div className="relative flex justify-center items-center w-full h-full">
         {/* Header */}
         <button

@@ -3,15 +3,8 @@ import React, { FC } from "react";
 import Link from "next/link";
 import { Information } from "@/payload-types";
 
-import {
-  Facebook,
-  PhoneIcon,
-  Instagram,
-  Linkedin,
-  MailIcon,
-  Twitter,
-  Youtube,
-} from "lucide-react"; // Import Lucide icons
+import { PhoneIcon, MailIcon } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "./brandIcons";
 
 const typeToIcon = {
   email: <MailIcon size={20} />,

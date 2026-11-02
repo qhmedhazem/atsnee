@@ -1,6 +1,5 @@
 import { FC, HTMLAttributes, ReactElement } from "react";
 import Image from "next/image";
-import { Typography } from "@material-tailwind/react";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   title: string;

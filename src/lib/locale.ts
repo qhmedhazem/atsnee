@@ -1,21 +1,15 @@
-import { headers } from "next/headers";
-
 export type Locale = "en" | "ar";
 export const SUPPORTED_LOCALES: Locale[] = ["en", "ar"];
 export const DEFAULT_LOCALE: Locale = "en";
+export const LOCALE_COOKIE = "NEXT_LOCALE";
+export const LOCALE_HEADER = "x-locale";
 
-export async function getLocale() {
-  const heads = await headers();
-  const pathname =
-    heads.get("x-invoke-path") || heads.get("referer") || heads.get("next-url");
+export const isLocale = (value?: string | null): value is Locale =>
+  SUPPORTED_LOCALES.includes(value as Locale);
 
-  const firstSegment = (pathname?.split("/")[1] ||
-    heads.get("x-invoke-locale") ||
-    "") as Locale;
-
-  if (SUPPORTED_LOCALES.includes(firstSegment)) {
-    return firstSegment;
-  }
-
-  return DEFAULT_LOCALE;
+// "/about" -> "/ar/about"; external, hash, and already-prefixed links are untouched.
+export function localizeHref(href: string, locale: Locale) {
+  if (!href.startsWith("/") || href.startsWith("//")) return href;
+  if (isLocale(href.split(/[/?#]/)[1])) return href;
+  return `/${locale}${href === "/" ? "" : href}`;
 }
