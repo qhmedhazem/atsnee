@@ -8,7 +8,7 @@ import { RenderPageLayout } from "@/blocks/RenderPageLayout";
 import { LivePreviewListener } from "@/components/LivePreviewListener";
 import { getLocale } from "@/lib/getLocale";
 import { queryPageBySlug } from "@/lib/queryPage";
-import PageNotFound from "@/components/PageNotFound";
+import { notFound } from "next/navigation";
 import { generateMeta } from "@/lib/generateMeta";
 
 // export async function generateStaticParams() {
@@ -51,9 +51,8 @@ export default async function Page({ params: paramsPromise }: Args) {
     locale,
   });
 
-  if (!page) {
-    return <PageNotFound className="min-h-screen" />;
-  }
+  // Real 404 status (renders [locale]/not-found.tsx), not a 200 "not found" page.
+  if (!page) notFound();
 
   const { blocks } = page;
 

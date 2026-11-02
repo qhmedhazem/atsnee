@@ -1,8 +1,6 @@
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SERVER_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL &&
-    `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
-  "https://www.atsnee.org";
+// Always the live domain: these files are committed, and a local build (NEXT_PUBLIC_SERVER_URL=localhost)
+// must not write localhost URLs into them.
+const SITE_URL = "https://www.atsnee.org";
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {

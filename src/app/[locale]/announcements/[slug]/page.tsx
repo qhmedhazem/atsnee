@@ -5,7 +5,7 @@ import payload from "@/lib/payload";
 import type { Where } from "payload";
 import type { Media, Post } from "@/payload-types";
 
-import PageNotFound from "@/components/PageNotFound";
+import { notFound } from "next/navigation";
 import PostGallery from "@/components/PostGallery";
 import NewsCard, { announcementCover, formatPostDate } from "@/blocks/AnnouncementList/NewsCard";
 import { generateMeta } from "@/lib/generateMeta";
@@ -30,9 +30,8 @@ export default async function PostPage({ params: paramsPromise }: Args) {
   const locale = await getLocale();
   const post = await queryPostBySlug({ slug });
 
-  if (!post) {
-    return <PageNotFound className="min-h-screen" />;
-  }
+  // Real 404 status (renders [locale]/not-found.tsx), not a 200 "not found" page.
+  if (!post) notFound();
 
   const t = STRINGS[locale];
   const gallery = (post.gallery ?? []).flatMap(({ image }) =>
