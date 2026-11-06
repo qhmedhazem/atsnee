@@ -28,6 +28,7 @@ import { Activities } from "./collections/Activities";
 import { OAuthGrants } from "./collections/OAuthGrants";
 import { isAdmin } from "./collections/defaultAccess";
 import { RESOURCE_METADATA_URL, userIdForAccessToken } from "./lib/oauth";
+import { MCP_UPLOAD_TOOLS } from "./lib/mcpUploads";
 
 import infoSectionConfig from "./blocks/InfoSection/config";
 import blockGroupConfig from "./blocks/BlockGroup/config";
@@ -99,7 +100,8 @@ const overrideAuth = async (
       enabled,
     ]),
   );
-  return { ...caps, user: { ...user, collection: "users", _strategy: "mcp-oauth" } } as MCPAccessSettings;
+  const tools = Object.fromEntries(MCP_UPLOAD_TOOLS.map((t) => [t.name, true]));
+  return { ...caps, "payload-mcp-tool": tools, user: { ...user, collection: "users", _strategy: "mcp-oauth" } } as MCPAccessSettings;
 };
 
 // MCP clients discover the OAuth server from the 401 (MCP authorization spec / RFC 9728).
@@ -174,7 +176,7 @@ export default buildConfig({
   sharp,
   plugins: [
     // MCP endpoint at /api/mcp: Bearer API keys ("MCP API Keys" in the admin) or OAuth (/api/oauth/*, "Connected apps").
-    mcpPlugin({ ...MCP_ENTITIES, overrideAuth }),
+    mcpPlugin({ ...MCP_ENTITIES, overrideAuth, mcp: { tools: MCP_UPLOAD_TOOLS as never } }),
     mcpOAuthChallenge,
     // Media lives in Cloudflare R2 (atsnee-media / atsnee-media-staging), served from media[-staging].atsnee.org.
     s3Storage({

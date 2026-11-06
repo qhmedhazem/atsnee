@@ -213,6 +213,7 @@ export interface CarouselHeader {
 export interface Media {
   id: string;
   alt?: string | null;
+  uploadBatch?: string | null;
   caption?: {
     root: {
       type: string;
@@ -1407,6 +1408,24 @@ export interface PayloadMcpApiKey {
      */
     update?: boolean | null;
   };
+  'payload-mcp-tool'?: {
+    /**
+     * Upload an image from a public link (direct image URL, Google Drive or Dropbox share link, an image from a web page). The server downloads it, converts it to WebP and stores it. Up to 15MB.
+     */
+    uploadImageFromUrl?: boolean | null;
+    /**
+     * Upload an image you have as bytes: base64 or a data: URI. Keep it under ~3MB (the request limit is about 4.5MB); for bigger photos or photos on the user's phone use createUploadLink.
+     */
+    uploadImageBase64?: boolean | null;
+    /**
+     * Best way to add photos from the user's phone or computer. Returns a link (valid 60 minutes) to a page where they pick photos from their gallery; each one is resized, uploaded and, if a post/activity id is given, added to its gallery automatically. Afterwards call listUploads with the same batch id.
+     */
+    createUploadLink?: boolean | null;
+    /**
+     * List the photos uploaded through an upload link, by batch id (from createUploadLink).
+     */
+    listUploads?: boolean | null;
+  };
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -1824,6 +1843,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  uploadBatch?: T;
   caption?: T;
   _objectKey?: T;
   updatedAt?: T;
@@ -2057,6 +2077,14 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
     | {
         find?: T;
         update?: T;
+      };
+  'payload-mcp-tool'?:
+    | T
+    | {
+        uploadImageFromUrl?: T;
+        uploadImageBase64?: T;
+        createUploadLink?: T;
+        listUploads?: T;
       };
   updatedAt?: T;
   createdAt?: T;

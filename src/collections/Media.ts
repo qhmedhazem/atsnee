@@ -31,6 +31,8 @@ export const Media: CollectionConfig = {
       localized: true,
       //required: true,
     },
+    // Which upload link (createUploadLink MCP tool) brought this file in; lets the assistant list them.
+    { name: "uploadBatch", type: "text", index: true, admin: { hidden: true } },
     {
       name: "caption",
       type: "richText",
