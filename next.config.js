@@ -17,6 +17,9 @@ const nextConfig = {
     ];
   },
   images: {
+    // Media is already WebP in fixed sizes (Payload) and served by Cloudflare from R2 for free; Vercel's optimizer
+    // only spent the Hobby quota (5K transformations/month) and broke images once it ran out.
+    unoptimized: true,
     remotePatterns: [
       // Media on Cloudflare R2 (bucket atsnee-media)
       { protocol: "https", hostname: "media.atsnee.org", pathname: "/**" },

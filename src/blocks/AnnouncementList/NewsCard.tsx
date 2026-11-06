@@ -51,10 +51,30 @@ export const coverPosition = (img?: Media | null) => {
   return (img.height ?? 0) > (img.width ?? 0) ? "50% 20%" : undefined;
 };
 
+// Images are served unoptimized, so the browser picks the size: Payload's 300px thumbnail (same aspect, uncropped)
+// for small cards, the original otherwise.
 const cover = (post: NewsItem) => {
   const img = announcementCover(post) as Media | null;
-  return { src: img?.url || DEFAULT_COVER, alt: img?.alt || "", style: { objectPosition: coverPosition(img) } };
+  const thumb = img?.sizes?.thumbnail;
+  const srcSet =
+    img?.url && img.width && thumb?.url && thumb.width ? `${thumb.url} ${thumb.width}w, ${img.url} ${img.width}w` : undefined;
+  return { src: img?.url || DEFAULT_COVER, srcSet, alt: img?.alt || "", style: { objectPosition: coverPosition(img) } };
 };
+
+const Cover = ({ img, sizes, priority }: { img: ReturnType<typeof cover>; sizes: string; priority?: boolean }) => (
+  // eslint-disable-next-line @next/next/no-img-element -- plain img: needs our own srcSet of Payload sizes
+  <img
+    src={img.src}
+    srcSet={img.srcSet}
+    sizes={img.srcSet ? sizes : undefined}
+    alt={img.alt}
+    style={img.style}
+    loading={priority ? "eager" : "lazy"}
+    fetchPriority={priority ? "high" : undefined}
+    decoding="async"
+    className={cn("absolute inset-0 size-full", zoom)}
+  />
+);
 
 const cardBase =
   "group relative flex overflow-hidden rounded-[14px] border border-gray-300 bg-white text-gray-900 " +
@@ -78,7 +98,7 @@ const NewsCard: React.FC<Props> = ({ post, locale, variant = "grid" }) => {
     return (
       <Link href={href} className={cn(cardBase, "h-full flex-col")}>
         <div className="relative aspect-video w-full overflow-hidden bg-gray-200">
-          <Image src={img.src} alt={img.alt} style={img.style} fill preload fetchPriority="high" sizes="(min-width: 980px) 680px, 100vw" className={zoom} />
+          <Cover img={img} sizes="(min-width: 980px) 680px, 100vw" priority />
         </div>
         <div className="flex flex-1 flex-col gap-3 p-5">
           <span className="w-fit rounded-full bg-light-blue-100/60 px-3 py-1 text-xs font-semibold text-light-blue-800">
@@ -120,13 +140,9 @@ const NewsCard: React.FC<Props> = ({ post, locale, variant = "grid" }) => {
           variant === "side" ? "min-[640px]:aspect-auto min-[640px]:min-h-[150px] min-[640px]:flex-1" : "min-[640px]:aspect-[16/10]",
         )}
       >
-        <Image
-          src={img.src}
-          alt={img.alt}
-          style={img.style}
-          fill
+        <Cover
+          img={img}
           sizes={variant === "side" ? "(min-width: 980px) 420px, (min-width: 640px) 45vw, 120px" : "(min-width: 980px) 360px, (min-width: 640px) 45vw, 120px"}
-          className={zoom}
         />
       </div>
       {/* min-w-0: lets long titles clamp instead of widening the row */}
