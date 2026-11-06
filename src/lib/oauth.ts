@@ -35,15 +35,14 @@ export const verifyPkce = (verifier: string, challenge: string) =>
   /^[A-Za-z0-9\-._~]{43,128}$/.test(verifier) &&
   safeEqual(crypto.createHash("sha256").update(verifier).digest("base64url"), challenge);
 
-// Redirects only go back to the AI assistants we support (or a subdomain of theirs) or to a native app on this
-// machine (Claude Code, Gemini CLI). The consent page shows the redirect host, and only an admin can allow it.
-const AI_HOSTS = ["claude.ai", "claude.com", "anthropic.com", "chatgpt.com", "openai.com", "google.com", "deepseek.com"];
+// Any https redirect (Claude, ChatGPT, Gemini, DeepSeek...), or plain http to this machine for native apps
+// (Claude Code, Gemini CLI). The consent page shows where it sends you, and only an admin can allow it.
 const LOOPBACK = ["localhost", "127.0.0.1", "[::1]"];
 export const isAllowedRedirect = (uri: string) => {
   try {
     const u = new URL(uri);
     if (u.hash || u.username || u.password) return false;
-    if (u.protocol === "https:") return AI_HOSTS.some((h) => u.hostname === h || u.hostname.endsWith(`.${h}`));
+    if (u.protocol === "https:") return true;
     return u.protocol === "http:" && LOOPBACK.includes(u.hostname);
   } catch {
     return false;

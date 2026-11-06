@@ -5,8 +5,8 @@ import { clientSecret, encodeClient, isAllowedRedirect, oauthJson, preflight } f
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const uris: unknown = body?.redirect_uris;
-  if (!Array.isArray(uris) || !uris.length || uris.length > 5 || !uris.every((u) => typeof u === "string" && u.length <= 500 && isAllowedRedirect(u))) {
-    return oauthJson({ error: "invalid_redirect_uri", error_description: "Only Claude or loopback redirect URIs are allowed." }, 400);
+  if (!Array.isArray(uris) || !uris.length || uris.length > 10 || !uris.every((u) => typeof u === "string" && u.length <= 2000 && isAllowedRedirect(u))) {
+    return oauthJson({ error: "invalid_redirect_uri", error_description: "redirect_uris must be https (or http on localhost)." }, 400);
   }
   const name = String(body.client_name || "MCP client").slice(0, 100);
   const method = ["client_secret_post", "client_secret_basic"].includes(body.token_endpoint_auth_method)
