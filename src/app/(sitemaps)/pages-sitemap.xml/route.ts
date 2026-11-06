@@ -50,6 +50,10 @@ const getPagesSitemap = unstable_cache(
   }
 );
 
+// Served from the CDN (ISR) so crawlers never wait on a cold function (Search Console saw 504s);
+// refreshed hourly, or right away when the posts/pages hooks revalidate the sitemap tag.
+export const revalidate = 3600;
+
 export async function GET() {
   const sitemap = await getPagesSitemap();
   return getServerSideSitemap(sitemap);

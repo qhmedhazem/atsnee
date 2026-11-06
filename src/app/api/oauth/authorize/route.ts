@@ -21,7 +21,9 @@ const SECURITY_HEADERS = {
   "Cache-Control": "no-store",
   "X-Frame-Options": "DENY",
   "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'",
-  "Referrer-Policy": "no-referrer",
+  // same-origin, not no-referrer: with no-referrer browsers send `Origin: null` on the consent form POST, which the
+  // origin check below rejects. same-origin still sends nothing to other sites (incl. the client).
+  "Referrer-Policy": "same-origin",
 };
 
 const page = (title: string, body: string, status = 200) =>
